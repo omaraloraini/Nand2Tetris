@@ -13,7 +13,7 @@
         <e p="HackAssembler.cs" t="Include" />
         <e p="Instruction.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
-          <e p="Release" t="Include">
+          <e p="Debug" t="Include">
             <e p="netcoreapp2.0" t="Include">
               <e p="Assembler.AssemblyInfo.cs" t="Include" />
             </e>
@@ -26,10 +26,8 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="HackAssemblerTests.cs" t="Include" />
         <e p="InstructionTests.cs" t="Include" />
-        <e p="Mult.asm" t="Include" />
-        <e p="Mult.hack" t="Include" />
         <e p="obj" t="ExcludeRecursive">
-          <e p="Release" t="Include">
+          <e p="Debug" t="Include">
             <e p="netcoreapp2.0" t="Include">
               <e p="Assembler.Tests.AssemblyInfo.cs" t="Include" />
               <e p="Assembler.Tests.Program.cs" t="Include" />
