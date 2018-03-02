@@ -5,13 +5,6 @@ namespace VirtualMachine
 {
     public class MemoryCommand : Command
     {
-        public static Dictionary<string, Func<string, string, int, MemoryCommand>> MemoryCommandsMap =
-            new Dictionary<string, Func<string, string, int, MemoryCommand>>
-            {
-                ["push"] = Push,
-                ["pop"] = Pop,
-            };
-
         private MemoryCommand(IEnumerable<string> hackInstructions) : base(hackInstructions)
         {
         }
@@ -50,13 +43,13 @@ namespace VirtualMachine
             switch (segment)
             {
                 case "local":
-                    return PopFromSegment("@LCL", indexPrefixed);
+                    return PopToSegment("@LCL", indexPrefixed);
                 case "argument":
-                    return PopFromSegment("@ARG", indexPrefixed);
+                    return PopToSegment("@ARG", indexPrefixed);
                 case "this":
-                    return PopFromSegment("@THIS", indexPrefixed);
+                    return PopToSegment("@THIS", indexPrefixed);
                 case "that":
-                    return PopFromSegment("@THAT", indexPrefixed);
+                    return PopToSegment("@THAT", indexPrefixed);
                 case "temp":
                     return PopToLabel("@" + (5 + index));
                 case "pointer":
@@ -125,7 +118,7 @@ namespace VirtualMachine
             });
         }
 
-        private static MemoryCommand PopFromSegment(string baseAddress, string offset)
+        private static MemoryCommand PopToSegment(string baseAddress, string offset)
         {
             return new MemoryCommand(new[]
             {

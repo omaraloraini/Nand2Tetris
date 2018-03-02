@@ -41,6 +41,7 @@
         <e p="ArithmeticCommand.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="Command.cs" t="Include" />
+        <e p="HackTranslator.cs" t="Include" />
         <e p="LogicalCommand.cs" t="Include" />
         <e p="MemoryCommand.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">

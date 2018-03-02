@@ -9,9 +9,6 @@ namespace VirtualMachine
         public static LogicalCommand LessThan() => LessThan("");
         public static LogicalCommand GreateThan() => GreateThan("");
         public static LogicalCommand Equal() => Equal("");
-        public static LogicalCommand Not() => Not("");
-        public static LogicalCommand Or() => Or("");
-        public static LogicalCommand And() => And("");
 
         private LogicalCommand(IEnumerable<string> hackInstructions) : base(hackInstructions)
         {
@@ -50,7 +47,7 @@ namespace VirtualMachine
                 });
         }
 
-        public static LogicalCommand And(string label)
+        public static LogicalCommand And()
         {
             return new LogicalCommand(
                 new[]
@@ -64,7 +61,7 @@ namespace VirtualMachine
                 });
         }
 
-        public static LogicalCommand Or(string label)
+        public static LogicalCommand Or()
         {
             return new LogicalCommand(
                 new[]
@@ -78,7 +75,7 @@ namespace VirtualMachine
                 });
         }
 
-        public static LogicalCommand Not(string label)
+        public static LogicalCommand Not()
         {
             return new LogicalCommand(new[]
             {

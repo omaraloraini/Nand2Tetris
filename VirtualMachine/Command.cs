@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace VirtualMachine
@@ -27,25 +26,31 @@ namespace VirtualMachine
             HackInstructions = hackInstructions;
         }
 
-        public static Command Parse(string fileName, string command)
+        public static Command Parse(string fileName, string line)
         {
-            var parts = command.Split(' ');
+            var parts = line.Split(' ');
+            var command = parts[0];
+            
             if (parts.Length == 1 && _arithmeticLogicalMap.ContainsKey(command))
             {
                 return _arithmeticLogicalMap[command].Invoke();
             }
 
-
             if (parts.Length == 3)
             {
-                if (parts[0] == "push")
-                    return MemoryCommand.Push(fileName, parts[1], int.Parse(parts[2]));
-
-                if (parts[0] == "pop")
-                    return MemoryCommand.Pop(fileName, parts[1], int.Parse(parts[2]));
+                var segment = parts[1];
+                var index = int.Parse(parts[2]);
+                
+                switch (command)
+                {
+                    case "push":
+                        return MemoryCommand.Push(fileName, segment, index);
+                    case "pop":
+                        return MemoryCommand.Pop(fileName, segment, index);
+                }
             }
             
-            throw new InvalidOperationException("Unsported command");
+            throw new InvalidOperationException("Invalid command");
         }
     }
 }
