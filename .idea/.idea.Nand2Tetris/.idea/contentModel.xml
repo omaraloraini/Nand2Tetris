@@ -13,7 +13,7 @@
         <e p="HackAssembler.cs" t="Include" />
         <e p="Instruction.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
-          <e p="Debug" t="Include">
+          <e p="Release" t="Include">
             <e p="netcoreapp2.0" t="Include">
               <e p="Assembler.AssemblyInfo.cs" t="Include" />
             </e>
@@ -27,7 +27,7 @@
         <e p="HackAssemblerTests.cs" t="Include" />
         <e p="InstructionTests.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
-          <e p="Debug" t="Include">
+          <e p="Release" t="Include">
             <e p="netcoreapp2.0" t="Include">
               <e p="Assembler.Tests.AssemblyInfo.cs" t="Include" />
               <e p="Assembler.Tests.Program.cs" t="Include" />
@@ -37,6 +37,37 @@
       </e>
       <e p="Nand2Tetris.sln" t="IncludeFlat" />
       <e p="packages" t="ExcludeRecursive" />
+      <e p="VirtualMachine" t="IncludeRecursive">
+        <e p="ArithmeticCommand.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Command.cs" t="Include" />
+        <e p="LogicalCommand.cs" t="Include" />
+        <e p="MemoryCommand.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Release" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="VirtualMachine.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="VirtualMachine.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="VirtualMachine.Tests" t="IncludeRecursive">
+        <e p="ArithmeticCommandTests.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="LogicalCommandTests.cs" t="Include" />
+        <e p="MemoryCommandTests.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Release" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="VirtualMachine.Tests.AssemblyInfo.cs" t="Include" />
+              <e p="VirtualMachine.Tests.Program.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="VirtualMachine.Tests.csproj" t="IncludeRecursive" />
+      </e>
     </e>
   </component>
 </project>

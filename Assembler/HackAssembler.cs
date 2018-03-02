@@ -25,12 +25,7 @@ namespace Assembler
 
         public static string[] Assemble(string[] lines)
         {
-            var instructions = lines
-                .Select(line => line.Contains("//") 
-                    ? line.Remove(line.IndexOf("//")).Replace(" ","")
-                    : line.Replace(" ", ""))
-                .Where(line => line != string.Empty)
-                .ToList();
+            var instructions = ExtractInstructions(lines);
 
             var symbols = new Dictionary<string, string>();
 
@@ -74,6 +69,16 @@ namespace Assembler
                 .ToArray();
 
             bool IsInt(string number) => number.All(c => c >= '0' && c <= '9');
+        }
+
+        private static List<string> ExtractInstructions(string[] lines)
+        {
+            return lines
+                .Select(line => line.Contains("//") 
+                    ? line.Remove(line.IndexOf("//")).Replace(" ","")
+                    : line.Replace(" ", ""))
+                .Where(line => line != string.Empty)
+                .ToList();
         }
     }
 }

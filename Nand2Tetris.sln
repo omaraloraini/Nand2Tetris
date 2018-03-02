@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembler", "Assembler\Asse
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembler.Tests", "Assembler.Tests\Assembler.Tests.csproj", "{8725A28C-20FE-49AB-BE09-EE4A9F79B43B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualMachine", "VirtualMachine\VirtualMachine.csproj", "{BB0743C1-1E7F-43FC-ADD7-E46356815CA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualMachine.Tests", "VirtualMachine.Tests\VirtualMachine.Tests.csproj", "{FFB2337D-DFF9-41A1-8A72-E8244C7F4006}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,5 +23,13 @@ Global
 		{8725A28C-20FE-49AB-BE09-EE4A9F79B43B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8725A28C-20FE-49AB-BE09-EE4A9F79B43B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8725A28C-20FE-49AB-BE09-EE4A9F79B43B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB0743C1-1E7F-43FC-ADD7-E46356815CA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB0743C1-1E7F-43FC-ADD7-E46356815CA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB0743C1-1E7F-43FC-ADD7-E46356815CA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB0743C1-1E7F-43FC-ADD7-E46356815CA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFB2337D-DFF9-41A1-8A72-E8244C7F4006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFB2337D-DFF9-41A1-8A72-E8244C7F4006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFB2337D-DFF9-41A1-8A72-E8244C7F4006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFB2337D-DFF9-41A1-8A72-E8244C7F4006}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
