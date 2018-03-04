@@ -63,7 +63,7 @@ namespace VirtualMachine
             }
         }
 
-        private static MemoryCommand PushConstant(string constant)
+        internal static MemoryCommand PushConstant(string constant)
         {
             return new MemoryCommand(new[]
             {
@@ -76,7 +76,7 @@ namespace VirtualMachine
             });
         }
         
-        private static MemoryCommand PushFromLabel(string label)
+        internal static MemoryCommand PushFromLabel(string label)
         {
             return new MemoryCommand(new[]
             {

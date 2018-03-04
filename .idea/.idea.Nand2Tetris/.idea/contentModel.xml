@@ -40,7 +40,9 @@
       <e p="VirtualMachine" t="IncludeRecursive">
         <e p="ArithmeticCommand.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="BranchingCommand.cs" t="Include" />
         <e p="Command.cs" t="Include" />
+        <e p="FunctionCommand.cs" t="Include" />
         <e p="HackTranslator.cs" t="Include" />
         <e p="LogicalCommand.cs" t="Include" />
         <e p="MemoryCommand.cs" t="Include" />
