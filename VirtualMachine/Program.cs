@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace VirtualMachine
 {
@@ -10,56 +11,41 @@ namespace VirtualMachine
     {
         private static void Main(string[] args)
         {
-            if (args.Length == 0)
+            if (args.Length == 1)
             {
-                var directoryInfo = new DirectoryInfo(Directory.GetCurrentDirectory());
-                var vmFiles = directoryInfo
-                    .GetFiles("*.vm")
-                    .Select(fileInfo => fileInfo.Name)
-                    .ToArray();
-                
-                
-                if (vmFiles.Any())
-                {
-                    var assembly = vmFiles
-                        .SelectMany(file => 
-                            HackTranslator.Translate(file, Read(file)));
-
-                    var bootstrapper = new[]
-                    {
-                        "@261",
-                        "D=A",
-                        "@SP",
-                        "M=D",
-                        "@Sys.init",
-                        "0;JMP"
-                    };
-                    
-                    
-
-                    Write("a.asm", bootstrapper.Concat(assembly));
-                }
-                else
-                {
-                    Console.WriteLine("Please supply a file.");
-                }
-                
+                SingleFileTranslation(args[0]);
                 return;
             }
-            
-            
+        
+            var directoryInfo = new DirectoryInfo(Directory.GetCurrentDirectory());
+            var vmFiles = directoryInfo
+                .GetFiles("*.vm")
+                .Select(fileInfo => fileInfo.Name)
+                .ToDictionary(
+                    fileName => fileName.Replace(".vm", ""),
+                    Read);
+
+
+            if (vmFiles.Count == 0) return;
+
+
+            var outputFile = directoryInfo.Name + ".asm";
+            Write(outputFile, HackTranslator.Translate(vmFiles));
+        }
+
+        private static void SingleFileTranslation(string fileName)
+        {
             try
             {
-                var fileName = args[0];
+                var name = fileName.Replace(".vm", "");
                 var outputFile = fileName.Replace(".vm", ".asm");
-                var lines = Read(fileName);
-                Write(outputFile, HackTranslator.Translate(fileName, lines));
+                var assembly = HackTranslator.Translate(name, Read(fileName));
+                Write(outputFile, assembly);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.GetType());
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
+                Console.WriteLine(e);
+                throw;
             }
         }
 
@@ -72,8 +58,5 @@ namespace VirtualMachine
         {
             return File.ReadAllLines(fileName);
         }
-        
-        
-        
     }
 }

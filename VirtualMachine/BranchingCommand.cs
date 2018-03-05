@@ -1,35 +1,28 @@
-﻿using System.Collections.Generic;
-
-namespace VirtualMachine
+﻿namespace VirtualMachine
 {
-    public class BranchingCommand : Command
+    public class BranchingCommand
     {
-        private BranchingCommand(IEnumerable<string> hackInstructions) : base(hackInstructions)
+        public static Command Label(Label label) =>
+            new Command(new[] {label.Declaration});
+        
+        public static Command Goto(Label label)
         {
-        }
-
-        public static BranchingCommand Goto(string label)
-        {
-            if (!label.StartsWith('@')) label = '@' + label;
-            
-            return new BranchingCommand(new[]
+            return new Command(new[]
             {
-                label,
+                label.Address,
                 "0;JMP"
             });
         }
         
-        public static BranchingCommand IfGoto(string label)
+        public static Command IfGoto(Label label)
         {
-            if (!label.StartsWith('@')) label = '@' + label;
-            
-            return new BranchingCommand(new[]
+            return new Command(new[]
             {
                 "@SP",
                 "M=M-1",
                 "A=M",
                 "D=M",
-                label,
+                label.Address,
                 "D;JNE"
             });
         }

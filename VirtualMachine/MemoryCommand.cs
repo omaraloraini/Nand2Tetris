@@ -3,69 +3,50 @@ using System.Collections.Generic;
 
 namespace VirtualMachine
 {
-    public class MemoryCommand : Command
+    public class MemoryCommand
     {
-        private MemoryCommand(IEnumerable<string> hackInstructions) : base(hackInstructions)
-        {
-        }
-
-        public static MemoryCommand Push(string fileName, string segment, int index)
+        public static Command Push(string fileName, string segment, int index)
         {
             var indexPrefixed = $"@{index}";
             switch (segment)
             {
-                case "constant":
-                    return PushConstant(indexPrefixed);
-                case "local":
-                    return PushFromSegment("@LCL", indexPrefixed);
-                case "argument":
-                    return PushFromSegment("@ARG", indexPrefixed);
-                case "this":
-                    return PushFromSegment("@THIS", indexPrefixed);
-                case "that":
-                    return PushFromSegment("@THAT", indexPrefixed);
-                case "temp":
-                    return PushFromLabel("@" + (5 + index));
+                case "constant": return PushConstant(indexPrefixed);
+                case "local": return PushFromSegment("@LCL", indexPrefixed);
+                case "argument": return PushFromSegment("@ARG", indexPrefixed);
+                case "this": return PushFromSegment("@THIS", indexPrefixed);
+                case "that": return PushFromSegment("@THAT", indexPrefixed);
+                case "temp": return PushFromLabel("@" + (5 + index));
                 case "pointer":
                     return (index == 0)
                         ? PushFromLabel("@THIS")
                         : PushFromLabel( "@THAT");
-                case "static":
-                    return PushFromLabel($"@{fileName}.{index}");
-                default:
-                    throw new ArgumentException(nameof(segment));
+                case "static": return PushFromLabel($"@{fileName}.{index}");
+                default: throw new ArgumentException(nameof(segment));
             }
         }
 
-        public static MemoryCommand Pop(string fileName, string segment, int index)
+        public static Command Pop(string fileName, string segment, int index)
         {
             var indexPrefixed = $"@{index}";
             switch (segment)
             {
-                case "local":
-                    return PopToSegment("@LCL", indexPrefixed);
-                case "argument":
-                    return PopToSegment("@ARG", indexPrefixed);
-                case "this":
-                    return PopToSegment("@THIS", indexPrefixed);
-                case "that":
-                    return PopToSegment("@THAT", indexPrefixed);
-                case "temp":
-                    return PopToLabel("@" + (5 + index));
+                case "local": return PopToSegment("@LCL", indexPrefixed);
+                case "argument": return PopToSegment("@ARG", indexPrefixed);
+                case "this": return PopToSegment("@THIS", indexPrefixed);
+                case "that": return PopToSegment("@THAT", indexPrefixed);
+                case "temp": return PopToLabel("@" + (5 + index));
                 case "pointer":
                     return (index == 0)
                         ? PopToLabel("@THIS")
                         : PopToLabel("@THAT");
-                case "static":
-                    return PopToLabel($"@{fileName}.{index}");
-                default:
-                    throw new ArgumentException(nameof(segment));
+                case "static": return PopToLabel($"@{fileName}.{index}");
+                default: throw new ArgumentException(nameof(segment));
             }
         }
 
-        internal static MemoryCommand PushConstant(string constant)
+        internal static Command PushConstant(string constant)
         {
-            return new MemoryCommand(new[]
+            return new Command(new[]
             {
                 constant,
                 "D=A",
@@ -75,10 +56,10 @@ namespace VirtualMachine
                 "M=D"
             });
         }
-        
-        internal static MemoryCommand PushFromLabel(string label)
+
+        private static Command PushFromLabel(string label)
         {
-            return new MemoryCommand(new[]
+            return new Command(new[]
             {
                 label,
                 "D=M",
@@ -89,9 +70,9 @@ namespace VirtualMachine
             });
         }
 
-        private static MemoryCommand PushFromSegment(string baseAddress, string offset)
+        private static Command PushFromSegment(string baseAddress, string offset)
         {
-            return new MemoryCommand(new[]
+            return new Command(new[]
             {
                 baseAddress,
                 "D=M",
@@ -105,9 +86,9 @@ namespace VirtualMachine
             });
         }
 
-        private static MemoryCommand PopToLabel(string label)
+        private static Command PopToLabel(string label)
         {
-            return new MemoryCommand(new[]
+            return new Command(new[]
             {
                 "@SP",
                 "M=M-1",
@@ -118,9 +99,9 @@ namespace VirtualMachine
             });
         }
 
-        private static MemoryCommand PopToSegment(string baseAddress, string offset)
+        private static Command PopToSegment(string baseAddress, string offset)
         {
-            return new MemoryCommand(new[]
+            return new Command(new[]
             {
                 baseAddress,
                 "D=M",

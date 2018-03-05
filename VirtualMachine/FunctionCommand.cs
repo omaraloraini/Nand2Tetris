@@ -9,13 +9,13 @@ namespace VirtualMachine
         {
         }
 
-        private static int counter = 0;
-        public static Command Call(string fileName, string functionName, int numberOfArguments)
+        public static Command Call(
+            string calleeName, int numberOfArguments, LabelGenerator generator)
         {
-            var label = $"ret${counter++}";
+            var label = generator.Generate();
             return new FunctionCommand(new[]
             {
-                "@" + label,
+                label.Address,
                 "D=A",
                 "@SP",
                 "M=M+1",
@@ -62,28 +62,33 @@ namespace VirtualMachine
                 "@ARG",
                 "M=D",
 
-                $"@{functionName}",
+                $"@{calleeName}",
                 "0;JMP",
 
-                $"({label})"
+                label.Declaration
             });
         }
 
         public static Command DeclareFunction(string functionName, int numberOfParameters)
         {
-            return Label(functionName)
-                .Combine(Enumerable
-                    .Repeat(0, numberOfParameters)
-                    .Select(_ => MemoryCommand.Push("", "constant", 0)));
+            var pushs = new List<string> {$"({functionName})"};
+            if (numberOfParameters == 0) return new Command(pushs);
+            
+            pushs.Add("@SP");
+            pushs.Add("A=M");
+
+            while (numberOfParameters-- > 0)
+            {
+                pushs.Add("M=0");
+                pushs.Add("AD=A+1");
+            }
+            
+            pushs.Add("@SP");
+            pushs.Add("M=D");
+            
+            return new Command(pushs);
         }
 
-        public static Command CreateFunction(string fileName,
-            string functionName, int numberOfParameters, IEnumerable<string> commands)
-        {
-            return DeclareFunction(functionName, numberOfParameters)
-                .Combine(commands.Select(command => Parse(fileName, command)))
-                .Combine(Retrun());
-        }
 
         public static Command Retrun()
         {

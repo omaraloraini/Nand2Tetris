@@ -7,7 +7,7 @@ namespace VirtualMachine.Tests
         [Fact]
         public void And_IsCorrect()
         {
-            var actual = LogicalCommand.And().HackInstructions;
+            var actual = Comparsion.And().HackInstructions;
 
             var expected = new[]
             {
@@ -25,7 +25,7 @@ namespace VirtualMachine.Tests
         [Fact]
         public void Or_IsCorrect()
         {
-            var actual = LogicalCommand.Or().HackInstructions;
+            var actual = Comparsion.Or().HackInstructions;
 
             var expected = new[]
             {
@@ -43,7 +43,7 @@ namespace VirtualMachine.Tests
         [Fact]
         public void Not_IsCorrect()
         {
-            var actual = LogicalCommand.Not().HackInstructions;
+            var actual = Comparsion.Not().HackInstructions;
 
             var expected = new[]
             {
@@ -60,7 +60,7 @@ namespace VirtualMachine.Tests
         {
             const string label = "XX";
             
-            var actual = LogicalCommand.Equal(label).HackInstructions;
+            var actual = Comparsion.Equal(label).HackInstructions;
 
             var expected = new[]
             {

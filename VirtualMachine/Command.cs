@@ -2,99 +2,47 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
+// ReSharper disable SwitchStatementMissingSomeCases
 
 namespace VirtualMachine
 {
     public class Command
     {
-        private static Dictionary<string, Func<Command>> _arithmeticLogicalMap = 
-            new Dictionary<string, Func<Command>>
-            {
-                ["add"] = ArithmeticCommand.Add,
-                ["sub"] = ArithmeticCommand.Sub,
-                ["neg"] = ArithmeticCommand.Neg,
-                ["and"] = LogicalCommand.And,
-                ["or"] = LogicalCommand.Or,
-                ["not"] = LogicalCommand.Not,
-                ["eq"] = LogicalCommand.Equal,
-                ["gt"] = LogicalCommand.GreateThan,
-                ["lt"] = LogicalCommand.LessThan
-            };
-        
         public IEnumerable<string> HackInstructions { get; }
-        
-        protected Command(IEnumerable<string> hackInstructions)
+
+        public Command(IEnumerable<string> hackInstructions)
         {
             HackInstructions = hackInstructions;
         }
 
-        public Command Combine(Command other)
-        {
-            return new Command(HackInstructions.Concat(other.HackInstructions));
-        }
-        
-        public Command Combine(IEnumerable<Command> commands)
-        {
-            return commands.Aggregate(this, (a, b) => a.Combine(b));
-        }
-
-        public static Command Label(string label)
-        {
-            if (!label.StartsWith('('))
-                label = '(' + label;
-            
-            if (!label.EndsWith(')')) 
-                label = label + ')';
-            
-            return new Command(new[] {label});
-        }
-
-        public static Command Parse(string fileName, string line)
+        public static Command Parse(string fileName, string line, LabelGenerator generator)
         {
             var parts = line.Split(' ');
             var command = parts[0];
+            var arg1 = parts.Length > 1 ? parts[1] : null;
+            var arg2 = parts.Length > 2 ? int.Parse(parts[2]) : 0;
             
-            if (parts.Length == 1)
+            switch (command)
             {
-                if (_arithmeticLogicalMap.ContainsKey(command))
-                    return _arithmeticLogicalMap[command].Invoke();
-
-                if (command == "return")
-                    return FunctionCommand.Retrun();
+                case "add": return ArithmeticCommand.Add();
+                case "sub": return ArithmeticCommand.Sub();
+                case "neg": return ArithmeticCommand.Neg();
+                case "and": return Bitwise.And();
+                case "or": return Bitwise.Or();
+                case "not": return Bitwise.Not();
+                case "eq": return Comparsion.Equal(generator);
+                case "gt": return Comparsion.GreateThan(generator);
+                case "lt": return Comparsion.LessThan(generator);
+                case "return": return FunctionCommand.Retrun();
+                case "goto": return BranchingCommand.Goto(arg1);
+                case "if-goto": return BranchingCommand.IfGoto(arg1);
+                case "label": return BranchingCommand.Label(arg1);
+                case "push": return MemoryCommand.Push(fileName, arg1, arg2);
+                case "pop": return MemoryCommand.Pop(fileName, arg1, arg2);
+                case "call": return FunctionCommand.Call(arg1, arg2, generator);
+                case "function": return FunctionCommand.DeclareFunction(arg1, arg2);
+                default: throw new InvalidOperationException("Invalid command");
             }
-
-            if (parts.Length == 2)
-            {
-                switch (command)
-                {
-                    case "goto":
-                        return BranchingCommand.Goto(parts[1]);
-                    case "if-goto":
-                        return BranchingCommand.IfGoto(parts[1]);
-                    case "label":
-                        return Label(parts[1]);
-                }
-            }
-
-            if (parts.Length == 3)
-            {
-                var segment = parts[1];
-                var index = int.Parse(parts[2]);
-                
-                switch (command)
-                {
-                    case "push":
-                        return MemoryCommand.Push(fileName, segment, index);
-                    case "pop":
-                        return MemoryCommand.Pop(fileName, segment, index);
-                    case "function":
-                        return FunctionCommand.DeclareFunction(segment, index);
-                    case "call":
-                        return FunctionCommand.Call(fileName, segment, index);
-                }
-            }
-            
-            throw new InvalidOperationException("Invalid command");
         }
     }
 }
