@@ -1,19 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace VirtualMachine
 {
-    public class FunctionCommand : Command
+    public class FunctionCommand
     {
-        private FunctionCommand(IEnumerable<string> hackInstructions) : base(hackInstructions)
-        {
-        }
-
         public static Command Call(
             string calleeName, int numberOfArguments, LabelGenerator generator)
         {
             var label = generator.Generate();
-            return new FunctionCommand(new[]
+            return new Command(new[]
             {
                 label.Address,
                 "D=A",
@@ -71,28 +66,28 @@ namespace VirtualMachine
 
         public static Command DeclareFunction(string functionName, int numberOfParameters)
         {
-            var pushs = new List<string> {$"({functionName})"};
-            if (numberOfParameters == 0) return new Command(pushs);
+            var instructions = new List<string> {$"({functionName})"};
+            if (numberOfParameters == 0) return new Command(instructions);
             
-            pushs.Add("@SP");
-            pushs.Add("A=M");
+            instructions.Add("@SP");
+            instructions.Add("A=M");
 
-            while (numberOfParameters-- > 0)
+            while (numberOfParameters > 0)
             {
-                pushs.Add("M=0");
-                pushs.Add("AD=A+1");
+                instructions.Add("M=0");
+                instructions.Add("AD=A+1");
+                numberOfParameters--;
             }
             
-            pushs.Add("@SP");
-            pushs.Add("M=D");
+            instructions.Add("@SP");
+            instructions.Add("M=D");
             
-            return new Command(pushs);
+            return new Command(instructions);
         }
-
 
         public static Command Retrun()
         {
-            return new FunctionCommand(new[]
+            return new Command(new[]
             {
                 // R13 = ENDFRAME
                 "@LCL",
@@ -148,11 +143,6 @@ namespace VirtualMachine
                 "A=M",
                 "0;JMP"
             });
-        }
-
-        public static FunctionCommand FunctionCall(string functionName, int numberOfParameters)
-        {
-            return null;
         }
     }
 }

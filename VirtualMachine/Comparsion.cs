@@ -12,8 +12,7 @@ namespace VirtualMachine
                 new[]
                 {
                     "@SP",
-                    "M=M-1",
-                    "A=M",
+                    "AM=M-1",
                     "D=M",
                     "A=A-1",
                     "D=D-M",
