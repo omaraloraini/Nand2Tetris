@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Analyzer
 {
-    internal class Token
+    public class Token : IEquatable<Token>
     {
         public Token(TokenType type, TokenName name, string value)
         {
@@ -21,6 +21,9 @@ namespace Analyzer
             return new Token(TokenType.Identifier, TokenName.Identifier, value);
         }
 
+        public static Token IntegerConstant(int value) => 
+            IntegerConstant(value.ToString());
+        
         private static Token IntegerConstant(string value)
         {
             return new Token(TokenType.IntegerConstant, 
@@ -53,63 +56,6 @@ namespace Analyzer
         }
 
         public static bool IsSymbol(char c) => _symbolTokens.ContainsKey(c);
-
-        internal enum TokenType
-        {
-            Keyword,
-            Symbol,
-            Identifier,
-            IntegerConstant,
-            StringConstant
-        }
-        
-        internal enum TokenName
-        {
-            Class,
-            Constructor,
-            Function,
-            Method,
-            Field,
-            Static,
-            Var,
-            Int,
-            Char,
-            Boolean,
-            Void,
-            True,
-            Fasle,
-            Null,
-            This,
-            Let,
-            Do,
-            If,
-            Else,
-            While,
-            Return,
-            OpenCurly,
-            CloseCurly,
-            OpenParenthesis,
-            CloseParenthesis,
-            OpenBracket,
-            CloseBracket,
-            Dot,
-            Commna,
-            SemiColon,
-            Plus,
-            Minus,
-            Star,
-            Slash,
-            Ampersand,
-            Pipe,
-            LessThan,
-            GreaterThan,
-            Equal,
-            Tilde,
-            IntegerConstant,
-            StringConstant,
-            Identifier
-        }
-
         
         private static Dictionary<string, Token> _keyordTokens = 
             new Dictionary<string, Token>
@@ -161,6 +107,86 @@ namespace Analyzer
                 ['~'] = new Token(TokenType.Symbol, TokenName.Tilde, "~"),
             };
 
+        public bool Equals(Token other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Type == other.Type && Name == other.Name && string.Equals(Value, other.Value);
+        }
 
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Token) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = (int) Type;
+                hashCode = (hashCode * 397) ^ (int) Name;
+                hashCode = (hashCode * 397) ^ (Value != null ? Value.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+    }
+    
+    public enum TokenType
+    {
+        Keyword,
+        Symbol,
+        Identifier,
+        IntegerConstant,
+        StringConstant
+    }
+        
+    public enum TokenName
+    {
+        Class,
+        Constructor,
+        Function,
+        Method,
+        Field,
+        Static,
+        Var,
+        Int,
+        Char,
+        Boolean,
+        Void,
+        True,
+        Fasle,
+        Null,
+        This,
+        Let,
+        Do,
+        If,
+        Else,
+        While,
+        Return,
+        OpenCurly,
+        CloseCurly,
+        OpenParenthesis,
+        CloseParenthesis,
+        OpenBracket,
+        CloseBracket,
+        Dot,
+        Commna,
+        SemiColon,
+        Plus,
+        Minus,
+        Star,
+        Slash,
+        Ampersand,
+        Pipe,
+        LessThan,
+        GreaterThan,
+        Equal,
+        Tilde,
+        IntegerConstant,
+        StringConstant,
+        Identifier
     }
 }

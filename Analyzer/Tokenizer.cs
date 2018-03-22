@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Analyzer
 {
-    internal static class Tokenizer
+    public static class Tokenizer
     {     
         public static IEnumerable<Token> Tokenize(string source)
         {
