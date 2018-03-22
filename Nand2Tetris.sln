@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualMachine", "VirtualMa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualMachine.Tests", "VirtualMachine.Tests\VirtualMachine.Tests.csproj", "{FFB2337D-DFF9-41A1-8A72-E8244C7F4006}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analyzer", "Analyzer\Analyzer.csproj", "{16BE2566-9C14-4CE2-BA6E-C85295314A2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,5 +33,9 @@ Global
 		{FFB2337D-DFF9-41A1-8A72-E8244C7F4006}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFB2337D-DFF9-41A1-8A72-E8244C7F4006}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFB2337D-DFF9-41A1-8A72-E8244C7F4006}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16BE2566-9C14-4CE2-BA6E-C85295314A2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16BE2566-9C14-4CE2-BA6E-C85295314A2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16BE2566-9C14-4CE2-BA6E-C85295314A2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16BE2566-9C14-4CE2-BA6E-C85295314A2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
