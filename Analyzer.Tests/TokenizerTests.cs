@@ -5,47 +5,6 @@ namespace Analyzer.Tests
 {
     public class TokenizerTests
     {
-        [Theory]
-        [InlineData("if", TokenType.Keyword, TokenName.If)]
-        [InlineData("class", TokenType.Keyword, TokenName.Class)]
-        public void Tokenize_Keywords_GetResolvedWithCorrectTokenTypeAndName(
-            string source, TokenType type, TokenName name)
-        {
-            var tokens = Tokenizer.Tokenize(source);
-
-            var subject = tokens
-                .Should()
-                .ContainSingle()
-                .Subject;
-
-            subject
-                .Name.Should().Be(name);
-
-            subject
-                .Type.Should().Be(type);
-        }
-        
-        [Theory]
-        [InlineData("(", TokenType.Symbol, TokenName.OpenParenthesis)]
-        [InlineData("=", TokenType.Symbol, TokenName.Equal)]
-        [InlineData(".", TokenType.Symbol, TokenName.Dot)]
-        public void Tokenize_Symbols_GetResolvedWithCorrectTokenTypeAndName(
-            string source, TokenType type, TokenName name)
-        {
-            var tokens = Tokenizer.Tokenize(source);
-
-            var subject = tokens
-                .Should()
-                .ContainSingle()
-                .Subject;
-
-            subject
-                .Name.Should().Be(name);
-
-            subject
-                .Type.Should().Be(type);
-        }
-
         [Fact]
         public void Tokenize_WithAdjacentSymbols_IsCorrect()
         {
@@ -56,10 +15,11 @@ namespace Analyzer.Tests
                 .HaveCount(4)
                 .And
                 .ContainInOrder(
-                    Token.Symbol('('),
-                    Token.Symbol(')'),
-                    Token.Symbol('{'),
-                    Token.Symbol('}'));
+                    SymbolToken.OpenParenthesis,
+                    SymbolToken.CloseParenthesis,
+                    SymbolToken.OpenCurly,
+                    SymbolToken.CloseCurly
+                    );
         }
 
         [Fact]
@@ -72,7 +32,7 @@ namespace Analyzer.Tests
                 .ContainSingle()
                 .Which
                 .Should()
-                .Be(Token.StringConsant("hello"));
+                .Be(new StringToken("hello"));
         }
 
         [Fact]
@@ -87,7 +47,7 @@ namespace Analyzer.Tests
                 .ContainSingle()
                 .Which
                 .Should()
-                .Be(Token.Parse(idenitfier));
+                .Be(new IdentifierToken(idenitfier));
         }
 
         [Fact]
@@ -100,11 +60,11 @@ namespace Analyzer.Tests
                 .HaveCount(6)
                 .And
                 .ContainInOrder(
-                    Token.Parse("do"),
-                    Token.Parse("setx"),
-                    Token.Symbol('('),
-                    Token.IntegerConstant(5),
-                    Token.Symbol(')')
+                    KeywordToken.Do,
+                    new IdentifierToken("setx"),
+                    SymbolToken.OpenParenthesis,
+                    new IntegerToken(5),
+                    SymbolToken.CloseParenthesis
                 );
         }
 
@@ -117,16 +77,22 @@ namespace Analyzer.Tests
                 .Should()
                 .HaveCount(14)
                 .And
-                .StartWith(new[]
+                .ContainInOrder(new Token[]
                 {
-                    Token.Parse("if"), 
-                    Token.Symbol('(') 
-                })
-                .And
-                .EndWith(new[]
-                {
-                    Token.Symbol(';'),
-                    Token.Symbol('}')       
+                    KeywordToken.If,
+                    SymbolToken.OpenParenthesis,
+                    new IdentifierToken("x"),
+                    SymbolToken.LessThan,
+                    new IntegerToken(100),
+                    SymbolToken.CloseParenthesis,
+                    SymbolToken.OpenCurly,
+                    new IdentifierToken("x"),
+                    SymbolToken.Equal,
+                    new IdentifierToken("x"),
+                    SymbolToken.Star,
+                    new IntegerToken(2),
+                    SymbolToken.SemiColon,
+                    SymbolToken.CloseCurly
                 });
         }
     }

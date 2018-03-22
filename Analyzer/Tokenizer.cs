@@ -27,9 +27,9 @@ namespace Analyzer
                     continue;
                 }
                 
-                if (Token.IsSymbol(source[i]))
+                if (SymbolToken.IsSymbol(source[i]))
                 {
-                    tokens.Add(Token.Symbol(source[i]));
+                    tokens.Add(Token.Parse(source[i].ToString()));
                     continue;
                 }
                 
@@ -37,13 +37,13 @@ namespace Analyzer
                 if (source[i] == '"')
                 {
                     while (j < source.Length && source[j] != '"') j++;
-                    tokens.Add(Token.StringConsant(source.Substring(i + 1, j - i - 1)));
+                    tokens.Add(Token.Parse(source.Substring(i, j - i + 1)));
                     i = j;
                     continue;
                 }
 
                 while (j < source.Length && !char.IsWhiteSpace(source[j]) &&
-                       source[j] != '"' && !Token.IsSymbol(source[j]))
+                       source[j] != '"' && !SymbolToken.IsSymbol(source[j]))
                 {
                     j++;
                 }

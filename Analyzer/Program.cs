@@ -19,9 +19,7 @@ namespace Analyzer
                 new XElement("tokens",
                     tokens
                         .Select(t => 
-                            new XElement(
-                                t.GetType().Name.Replace("Token", "").ToLower(),
-                                t))
+                            new XElement(t.Type.ToString().ToLower(), t.Value))
                 )
             );
 

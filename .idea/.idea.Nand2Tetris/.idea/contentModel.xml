@@ -9,6 +9,11 @@
       <e p="Analyzer" t="IncludeRecursive">
         <e p="Analyzer.csproj" t="IncludeRecursive" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="CompositeToken.cs" t="Include" />
+        <e p="IdentifierToken.cs" t="Include" />
+        <e p="IntegerToken.cs" t="Include" />
+        <e p="IToken.cs" t="Include" />
+        <e p="KeywordToken.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp2.0" t="Include">
@@ -17,6 +22,8 @@
           </e>
         </e>
         <e p="Program.cs" t="Include" />
+        <e p="StringToken.cs" t="Include" />
+        <e p="SymbolToken.cs" t="Include" />
         <e p="Token.cs" t="Include" />
         <e p="Tokenizer.cs" t="Include" />
       </e>
