@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Analyzer
+namespace Analyzer.Tokens
 {
     public class IdentifierToken : Token, IEquatable<IdentifierToken>
     {

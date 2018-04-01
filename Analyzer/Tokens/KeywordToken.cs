@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace Analyzer
+namespace Analyzer.Tokens
 {
     public class KeywordToken : Token, IEquatable<KeywordToken>
     {
@@ -32,6 +32,7 @@ namespace Analyzer
         public static KeywordToken Int => new KeywordToken("int");
         public static KeywordToken Char => new KeywordToken("char");
         public static KeywordToken Boolean => new KeywordToken("boolean");
+        public static KeywordToken Void => new KeywordToken("void");
         public static KeywordToken True => new KeywordToken("true");
         public static KeywordToken False => new KeywordToken("false");
         public static KeywordToken Null => new KeywordToken("null");

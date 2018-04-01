@@ -1,3 +1,4 @@
+using Analyzer.Tokens;
 using FluentAssertions;
 using Xunit;
 

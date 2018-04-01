@@ -9,11 +9,13 @@
       <e p="Analyzer" t="IncludeRecursive">
         <e p="Analyzer.csproj" t="IncludeRecursive" />
         <e p="bin" t="ExcludeRecursive" />
-        <e p="CompositeToken.cs" t="Include" />
-        <e p="IdentifierToken.cs" t="Include" />
-        <e p="IntegerToken.cs" t="Include" />
-        <e p="IToken.cs" t="Include" />
-        <e p="KeywordToken.cs" t="Include" />
+        <e p="Expressions" t="Include">
+          <e p="Expression.cs" t="Include" />
+          <e p="ExpressionList.cs" t="Include" />
+          <e p="SubroutineCall.cs" t="Include" />
+          <e p="Term.cs" t="Include" />
+        </e>
+        <e p="JackProgram.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp2.0" t="Include">
@@ -22,10 +24,26 @@
           </e>
         </e>
         <e p="Program.cs" t="Include" />
-        <e p="StringToken.cs" t="Include" />
-        <e p="SymbolToken.cs" t="Include" />
-        <e p="Token.cs" t="Include" />
+        <e p="Statements" t="Include">
+          <e p="DoStatement.cs" t="Include" />
+          <e p="IfStatemenst.cs" t="Include" />
+          <e p="LetStatement.cs" t="Include" />
+          <e p="ReturntStatment.cs" t="Include" />
+          <e p="Statement.cs" t="Include" />
+          <e p="WhileStatement.cs" t="Include" />
+        </e>
         <e p="Tokenizer.cs" t="Include" />
+        <e p="TokenizerExtensions.cs" t="Include" />
+        <e p="Tokens" t="Include">
+          <e p="CompositeToken.cs" t="Include" />
+          <e p="IdentifierToken.cs" t="Include" />
+          <e p="IntegerToken.cs" t="Include" />
+          <e p="IToken.cs" t="Include" />
+          <e p="KeywordToken.cs" t="Include" />
+          <e p="StringToken.cs" t="Include" />
+          <e p="SymbolToken.cs" t="Include" />
+          <e p="Token.cs" t="Include" />
+        </e>
       </e>
       <e p="Analyzer.Tests" t="IncludeRecursive">
         <e p="Analyzer.Tests.csproj" t="IncludeRecursive" />

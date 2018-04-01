@@ -1,12 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
+using Analyzer.Tokens;
 
 namespace Analyzer
 {
-    public static class Tokenizer
-    {     
-        public static IEnumerable<Token> Tokenize(string source)
+    public class Tokenizer
+    {
+        private LinkedList<Token> _list;
+        private LinkedListNode<Token> _node;
+        public Token Current => _list.First.Value;
+        public Token Next => _list.First.Next?.Value;
+        public bool IsEmpty => _list.Count == 0;
+
+        private Tokenizer(){}
+        public Tokenizer(IEnumerable<Token> tokens)
+        {
+            _list = new LinkedList<Token>(tokens);
+            _node = _list.First;
+        }
+        
+        public Tokenizer Move()
+        {
+            return new Tokenizer {_list = _list, _node = _node.Next};
+        }
+        
+        public static Tokenizer Tokenize(string source)
         {
             var tokens = new List<Token>();
 
@@ -52,7 +70,7 @@ namespace Analyzer
                 i = j - 1;
             }
             
-            return tokens;
+            return new Tokenizer(tokens);
         }
     }
 }

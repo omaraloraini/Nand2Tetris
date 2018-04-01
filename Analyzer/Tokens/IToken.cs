@@ -1,4 +1,4 @@
-﻿namespace Analyzer
+﻿namespace Analyzer.Tokens
 {
     public interface IToken
     {

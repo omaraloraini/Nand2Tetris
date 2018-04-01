@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace Analyzer
+namespace Analyzer.Tokens
 {
     public class SymbolToken : Token, IEquatable<SymbolToken>
     {
