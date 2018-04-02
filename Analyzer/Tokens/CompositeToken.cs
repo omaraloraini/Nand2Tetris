@@ -20,7 +20,7 @@ namespace Analyzer.Tokens
 
         protected void SubroutineCall(Tokenizer tokenizer)
         {
-            Tokens.Add(new SubroutineCall(tokenizer));
+            Tokens.AddRange(new SubroutineCall(tokenizer).Tokens);
         }
 
         protected void ExpressionList(Tokenizer tokenizer)

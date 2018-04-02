@@ -8,8 +8,8 @@ namespace Analyzer
     {
         private LinkedList<Token> _list;
         private LinkedListNode<Token> _node;
-        public Token Current => _list.First.Value;
-        public Token Next => _list.First.Next?.Value;
+        public Token Current => _node.Value;
+        public Token Next => _node.Next?.Value;
         public bool IsEmpty => _list.Count == 0;
 
         private Tokenizer(){}
@@ -21,7 +21,8 @@ namespace Analyzer
         
         public Tokenizer Move()
         {
-            return new Tokenizer {_list = _list, _node = _node.Next};
+            _node = _node.Next;
+            return this;
         }
         
         public static Tokenizer Tokenize(string source)

@@ -16,6 +16,7 @@ namespace Analyzer.Statements
                 .ApplyIf(SymbolToken.OpenBracket, t => t
                     .Apply(ExpressionWithInBrackets))
                 .CurrentIs(SymbolToken.Equal)
+                .ApplyThenMove(AddCurrent)
                 .Apply(AddExpresion)
                 .CurrentIs(SymbolToken.SemiColon)
                 .ApplyThenMove(AddCurrent);

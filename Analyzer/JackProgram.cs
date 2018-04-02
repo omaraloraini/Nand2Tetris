@@ -7,10 +7,8 @@ namespace Analyzer
 {
     public class JackProgram : CompositeToken
     {
-        public JackProgram(string source)
+        public JackProgram(Tokenizer tokenizer)
         {
-            var tokenizer = Tokenizer.Tokenize(source);
-
             tokenizer
                 .CurrentIs(Class)
                 .ApplyThenMove(AddCurrent)

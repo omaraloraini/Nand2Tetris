@@ -25,12 +25,21 @@ namespace Analyzer.Expressions
                     tokenizer.ApplyThenMove(AddCurrent);
                     break;
                 case IdentifierToken _:
-                    tokenizer
-                        .ApplyThenMove(AddCurrent)
-                        .ApplyIf(SymbolToken.OpenBracket, t => t
-                            .Apply(ExpressionWithInBrackets))
-                        .ApplyIf(SymbolToken.OpenParenthesis, t => t
-                            .Apply(SubroutineCall));
+                    if (tokenizer.Next.Equals(SymbolToken.OpenBracket))
+                    {
+                        tokenizer
+                            .ApplyThenMove(AddCurrent)
+                            .Apply(ExpressionWithInBrackets);
+                    }
+                    else if (tokenizer.Next.Equals(SymbolToken.Dot) || 
+                             tokenizer.Next.Equals(SymbolToken.OpenParenthesis))
+                    {
+                        tokenizer.Apply(SubroutineCall);
+                    }
+                    else
+                    {
+                        tokenizer.ApplyThenMove(AddCurrent);
+                    }
                     break;
             }
         }

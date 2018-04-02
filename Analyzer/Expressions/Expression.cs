@@ -7,11 +7,12 @@ namespace Analyzer.Expressions
         protected Expression(){}
         public Expression(Tokenizer tokenizer)
         {
-            do
+            Tokens.Add(new Term(tokenizer));
+            while (tokenizer.Current.IsOperator())
             {
-                Tokens.Add(new Term(tokenizer));
                 tokenizer.ApplyThenMove(AddCurrent);
-            } while (!tokenizer.Current.IsOperator());
+                Tokens.Add(new Term(tokenizer));
+            }
         }
     }
 }

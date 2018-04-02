@@ -8,7 +8,7 @@ namespace Analyzer.Tokens
         public string Keyword { get; }
         
         private static Regex _keywordRegex = new Regex(
-            "class|constructor|function|method|field|static|var|int|char|boolean|void|true|false|null|this|let|do|if|else|while|return");
+            "^(class|constructor|function|method|field|static|var|int|char|boolean|void|true|false|null|this|let|do|if|else|while|return)");
         
         public KeywordToken(string keyword)
         {

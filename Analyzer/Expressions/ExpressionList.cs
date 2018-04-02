@@ -13,7 +13,7 @@ namespace Analyzer.Expressions
                     tokenizer.ApplyThenMove(AddCurrent);
                 }
 
-                tokenizer.ApplyThenMove(AddExpresion);
+                tokenizer.Apply(AddExpresion);
             }
         }
     }
