@@ -6,9 +6,9 @@ namespace Analyzer.Expressions
     {
         public ExpressionList(Tokenizer tokenizer)
         {
-            while (!tokenizer.Current.Equals(SymbolToken.CloseParenthesis))
+            while (!tokenizer.Current.Equals(Symbol.CloseParenthesis))
             {
-                if (tokenizer.Current.Equals(SymbolToken.Commna))
+                if (tokenizer.Current.Equals(Symbol.Commna))
                 {
                     tokenizer.ApplyThenMove(AddCurrent);
                 }

@@ -16,10 +16,10 @@ namespace Analyzer.Tests
                 .HaveCount(4)
                 .And
                 .ContainInOrder(
-                    SymbolToken.OpenParenthesis,
-                    SymbolToken.CloseParenthesis,
-                    SymbolToken.OpenCurly,
-                    SymbolToken.CloseCurly
+                    Symbol.OpenParenthesis,
+                    Symbol.CloseParenthesis,
+                    Symbol.OpenCurly,
+                    Symbol.CloseCurly
                     );
         }
 
@@ -33,7 +33,7 @@ namespace Analyzer.Tests
                 .ContainSingle()
                 .Which
                 .Should()
-                .Be(new StringToken("hello"));
+                .Be(new StringConstant("hello"));
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace Analyzer.Tests
                 .ContainSingle()
                 .Which
                 .Should()
-                .Be(new IdentifierToken(idenitfier));
+                .Be(new Identifier(idenitfier));
         }
 
         [Fact]
@@ -61,11 +61,11 @@ namespace Analyzer.Tests
                 .HaveCount(6)
                 .And
                 .ContainInOrder(
-                    KeywordToken.Do,
-                    new IdentifierToken("setx"),
-                    SymbolToken.OpenParenthesis,
-                    new IntegerToken(5),
-                    SymbolToken.CloseParenthesis
+                    Keyword.Do,
+                    new Identifier("setx"),
+                    Symbol.OpenParenthesis,
+                    new IntegerConstant(5),
+                    Symbol.CloseParenthesis
                 );
         }
 
@@ -80,20 +80,20 @@ namespace Analyzer.Tests
                 .And
                 .ContainInOrder(new Token[]
                 {
-                    KeywordToken.If,
-                    SymbolToken.OpenParenthesis,
-                    new IdentifierToken("x"),
-                    SymbolToken.LessThan,
-                    new IntegerToken(100),
-                    SymbolToken.CloseParenthesis,
-                    SymbolToken.OpenCurly,
-                    new IdentifierToken("x"),
-                    SymbolToken.Equal,
-                    new IdentifierToken("x"),
-                    SymbolToken.Star,
-                    new IntegerToken(2),
-                    SymbolToken.SemiColon,
-                    SymbolToken.CloseCurly
+                    Keyword.If,
+                    Symbol.OpenParenthesis,
+                    new Identifier("x"),
+                    Symbol.LessThan,
+                    new IntegerConstant(100),
+                    Symbol.CloseParenthesis,
+                    Symbol.OpenCurly,
+                    new Identifier("x"),
+                    Symbol.Equal,
+                    new Identifier("x"),
+                    Symbol.Star,
+                    new IntegerConstant(2),
+                    Symbol.SemiColon,
+                    Symbol.CloseCurly
                 });
         }
     }

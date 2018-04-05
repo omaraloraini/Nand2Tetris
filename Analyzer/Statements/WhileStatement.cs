@@ -7,7 +7,7 @@ namespace Analyzer.Statements
         public WhileStatement(Tokenizer tokenizer)
         {
             tokenizer
-                .CurrentIs(KeywordToken.While)
+                .CurrentIs(Keyword.While)
                 .ApplyThenMove(AddCurrent)
                 .Apply(ExpressionWithInParentheses)
                 .Apply(StatementsWithInCurlyBrackets);

@@ -7,11 +7,11 @@ namespace Analyzer.Statements
         public IfStatemenst(Tokenizer tokenizer)
         {
             tokenizer
-                .CurrentIs(KeywordToken.If)
-                .Apply(AddCurrent)
+                .CurrentIs(Keyword.If)
+                .ApplyThenMove(AddCurrent)
                 .Apply(ExpressionWithInParentheses)
                 .Apply(StatementsWithInCurlyBrackets)
-                .ApplyIf(KeywordToken.Else, t => t
+                .ApplyIf(Keyword.Else, t => t
                     .ApplyThenMove(AddCurrent)
                     .Apply(StatementsWithInCurlyBrackets));
         }

@@ -30,18 +30,19 @@
           <e p="LetStatement.cs" t="Include" />
           <e p="ReturntStatment.cs" t="Include" />
           <e p="Statement.cs" t="Include" />
+          <e p="Statements.cs" t="Include" />
           <e p="WhileStatement.cs" t="Include" />
         </e>
         <e p="Tokenizer.cs" t="Include" />
         <e p="TokenizerExtensions.cs" t="Include" />
         <e p="Tokens" t="Include">
           <e p="CompositeToken.cs" t="Include" />
-          <e p="IdentifierToken.cs" t="Include" />
-          <e p="IntegerToken.cs" t="Include" />
+          <e p="Identifier.cs" t="Include" />
+          <e p="IntegerConstant.cs" t="Include" />
           <e p="IToken.cs" t="Include" />
-          <e p="KeywordToken.cs" t="Include" />
-          <e p="StringToken.cs" t="Include" />
-          <e p="SymbolToken.cs" t="Include" />
+          <e p="Keyword.cs" t="Include" />
+          <e p="StringConstant.cs" t="Include" />
+          <e p="Symbol.cs" t="Include" />
           <e p="Token.cs" t="Include" />
         </e>
       </e>

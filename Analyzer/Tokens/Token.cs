@@ -4,43 +4,51 @@ namespace Analyzer.Tokens
 {
     public abstract class Token : IToken
     {
+        public string Value { get; protected set; }
+
+        protected Token(string value)
+        {
+            Value = value;
+        }
+        
         public static Token Parse(string value)
         {
-            if (int.TryParse(value, out var i)) return new IntegerToken(i);
+            if (int.TryParse(value, out var i)) return new IntegerConstant(i);
 
             if (value.StartsWith('"') && value.EndsWith('"'))
-                return new StringToken(value.Substring(1, value.Length - 2));
+                return new StringConstant(value.Substring(1, value.Length - 2));
             
-            if (KeywordToken.IsKeyword(value))
-                return new KeywordToken(value);
+            if (Keyword.IsKeyword(value))
+                return new Keyword(value);
             
-            if (value.Length == 1 && SymbolToken.IsSymbol(value[0]))
-                return new SymbolToken(value[0]);
+            if (value.Length == 1 && Symbol.IsSymbol(value[0]))
+                return new Symbol(value[0]);
             
             if (!value.Contains(" ")) 
-                return new IdentifierToken(value);
+                return new Identifier(value);
             
             throw new ArgumentException($"{value} : invalid token");
         }
 
         public bool IsOperator()
         {
-            return this is SymbolToken symbolToken &&(
-                   symbolToken == SymbolToken.Minus ||
-                   symbolToken == SymbolToken.Star ||
-                   symbolToken == SymbolToken.Slash ||
-                   symbolToken == SymbolToken.Ampersand ||
-                   symbolToken == SymbolToken.Pipe ||
-                   symbolToken == SymbolToken.LessThan ||
-                   symbolToken == SymbolToken.GreaterThan ||
-                   symbolToken == SymbolToken.Equal);
+            return this is Symbol symbolToken &&(
+                   symbolToken == Symbol.Plus ||
+                   symbolToken == Symbol.Minus ||
+                   symbolToken == Symbol.Star ||
+                   symbolToken == Symbol.Slash ||
+                   symbolToken == Symbol.Ampersand ||
+                   symbolToken == Symbol.Pipe ||
+                   symbolToken == Symbol.LessThan ||
+                   symbolToken == Symbol.GreaterThan ||
+                   symbolToken == Symbol.Equal);
         }
 
         public bool IsUnaryOperator()
         {
-            return this is SymbolToken symbolToken && (
-                       symbolToken == SymbolToken.Tilde ||
-                       symbolToken == SymbolToken.Minus);
+            return this is Symbol symbolToken && (
+                       symbolToken == Symbol.Tilde ||
+                       symbolToken == Symbol.Minus);
         }
     }
 }

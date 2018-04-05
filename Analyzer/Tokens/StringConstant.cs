@@ -2,16 +2,16 @@
 
 namespace Analyzer.Tokens
 {
-    public class StringToken : Token, IEquatable<StringToken>
+    public class StringConstant : Token, IEquatable<StringConstant>
     {
         public string String { get; }
 
-        public StringToken(string @string)
+        public StringConstant(string @string) : base(@string)
         {
             String = @string;
         }
 
-        public bool Equals(StringToken other)
+        public bool Equals(StringConstant other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -23,12 +23,12 @@ namespace Analyzer.Tokens
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((StringToken) obj);
+            return Equals((StringConstant) obj);
         }
 
         public override int GetHashCode() => (String != null ? String.GetHashCode() : 0);
-        public static bool operator ==(StringToken left, StringToken right) => Equals(left, right);
-        public static bool operator !=(StringToken left, StringToken right) => !Equals(left, right);
+        public static bool operator ==(StringConstant left, StringConstant right) => Equals(left, right);
+        public static bool operator !=(StringConstant left, StringConstant right) => !Equals(left, right);
         public override string ToString() => String;
     }
 }

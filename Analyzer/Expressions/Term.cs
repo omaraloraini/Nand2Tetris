@@ -7,32 +7,32 @@ namespace Analyzer.Expressions
         public Term(Tokenizer tokenizer)
         {
             tokenizer
-                .ApplyIf(SymbolToken.Minus, t => t.ApplyThenMove(AddCurrent))
-                .ApplyIf(SymbolToken.Tilde, t => t.ApplyThenMove(AddCurrent));
+                .ApplyIf(Symbol.Minus, t => t.ApplyThenMove(AddCurrent))
+                .ApplyIf(Symbol.Tilde, t => t.ApplyThenMove(AddCurrent));
 
             switch (tokenizer.Current)
             {
-                case SymbolToken symbolToken when symbolToken == SymbolToken.OpenParenthesis:
+                case Symbol symbolToken when symbolToken == Symbol.OpenParenthesis:
                     tokenizer
                         .ApplyThenMove(AddCurrent)
                         .Apply(AddExpresion)
-                        .CurrentIs(SymbolToken.CloseParenthesis)
+                        .CurrentIs(Symbol.CloseParenthesis)
                         .ApplyThenMove(AddCurrent);
                     break;
-                case IntegerToken _:
-                case StringToken _:
-                case KeywordToken _:
+                case IntegerConstant _:
+                case StringConstant _:
+                case Keyword _:
                     tokenizer.ApplyThenMove(AddCurrent);
                     break;
-                case IdentifierToken _:
-                    if (tokenizer.Next.Equals(SymbolToken.OpenBracket))
+                case Identifier _:
+                    if (tokenizer.Next.Equals(Symbol.OpenBracket))
                     {
                         tokenizer
                             .ApplyThenMove(AddCurrent)
                             .Apply(ExpressionWithInBrackets);
                     }
-                    else if (tokenizer.Next.Equals(SymbolToken.Dot) || 
-                             tokenizer.Next.Equals(SymbolToken.OpenParenthesis))
+                    else if (tokenizer.Next.Equals(Symbol.Dot) || 
+                             tokenizer.Next.Equals(Symbol.OpenParenthesis))
                     {
                         tokenizer.Apply(SubroutineCall);
                     }

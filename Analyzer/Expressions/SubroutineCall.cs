@@ -9,14 +9,14 @@ namespace Analyzer.Expressions
             tokenizer
                 .CurrentIsIdentifier()
                 .ApplyThenMove(AddCurrent)
-                .ApplyIf(SymbolToken.Dot, t => t
+                .ApplyIf(Symbol.Dot, t => t
                     .ApplyThenMove(AddCurrent)
                     .CurrentIsIdentifier()
                     .ApplyThenMove(AddCurrent))
-                .CurrentIs(SymbolToken.OpenParenthesis)
+                .CurrentIs(Symbol.OpenParenthesis)
                 .ApplyThenMove(AddCurrent)
                 .Apply(ExpressionList)
-                .CurrentIs(SymbolToken.CloseParenthesis)
+                .CurrentIs(Symbol.CloseParenthesis)
                 .ApplyThenMove(AddCurrent);
         }
     }

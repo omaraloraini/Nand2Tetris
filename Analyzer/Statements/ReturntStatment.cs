@@ -7,11 +7,11 @@ namespace Analyzer.Statements
         public ReturntStatment(Tokenizer tokenizer)
         {
             tokenizer
-                .CurrentIs(KeywordToken.Return)
+                .CurrentIs(Keyword.Return)
                 .ApplyThenMove(AddCurrent)
-                .ApplyIfNot(SymbolToken.SemiColon, t => t
+                .ApplyIfNot(Symbol.SemiColon, t => t
                     .Apply(AddExpresion))
-                .CurrentIs(SymbolToken.SemiColon)
+                .CurrentIs(Symbol.SemiColon)
                 .ApplyThenMove(AddCurrent);
         }
     }

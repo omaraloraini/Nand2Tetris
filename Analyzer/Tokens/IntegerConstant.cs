@@ -2,16 +2,16 @@
 
 namespace Analyzer.Tokens
 {
-    public class IntegerToken : Token, IEquatable<IntegerToken>
+    public class IntegerConstant : Token, IEquatable<IntegerConstant>
     {
         public int Integer { get; }
 
-        public IntegerToken(int integer)
+        public IntegerConstant(int integer) : base(integer.ToString())
         {
             Integer = integer;
         }
 
-        public bool Equals(IntegerToken other)
+        public bool Equals(IntegerConstant other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -23,12 +23,12 @@ namespace Analyzer.Tokens
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((IntegerToken) obj);
+            return Equals((IntegerConstant) obj);
         }
 
         public override int GetHashCode() => Integer;
-        public static bool operator ==(IntegerToken left, IntegerToken right) => Equals(left, right);
-        public static bool operator !=(IntegerToken left, IntegerToken right) => !Equals(left, right);
+        public static bool operator ==(IntegerConstant left, IntegerConstant right) => Equals(left, right);
+        public static bool operator !=(IntegerConstant left, IntegerConstant right) => !Equals(left, right);
         public override string ToString() => Integer.ToString();
     }
 }

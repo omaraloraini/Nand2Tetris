@@ -9,16 +9,16 @@ namespace Analyzer.Statements
         public LetStatement(Tokenizer tokenizer)
         {
             tokenizer
-                .CurrentIs(KeywordToken.Let)
+                .CurrentIs(Keyword.Let)
                 .ApplyThenMove(AddCurrent)
                 .CurrentIsIdentifier()
                 .ApplyThenMove(AddCurrent)
-                .ApplyIf(SymbolToken.OpenBracket, t => t
+                .ApplyIf(Symbol.OpenBracket, t => t
                     .Apply(ExpressionWithInBrackets))
-                .CurrentIs(SymbolToken.Equal)
+                .CurrentIs(Symbol.Equal)
                 .ApplyThenMove(AddCurrent)
                 .Apply(AddExpresion)
-                .CurrentIs(SymbolToken.SemiColon)
+                .CurrentIs(Symbol.SemiColon)
                 .ApplyThenMove(AddCurrent);
         }
     }

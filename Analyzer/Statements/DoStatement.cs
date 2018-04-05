@@ -7,10 +7,10 @@ namespace Analyzer.Statements
         public DoStatement(Tokenizer tokenizer)
         {
             tokenizer
-                .CurrentIs(KeywordToken.Do)
+                .CurrentIs(Keyword.Do)
                 .ApplyThenMove(AddCurrent)
                 .Apply(SubroutineCall)
-                .CurrentIs(SymbolToken.SemiColon)
+                .CurrentIs(Symbol.SemiColon)
                 .ApplyThenMove(AddCurrent);
         }
     }

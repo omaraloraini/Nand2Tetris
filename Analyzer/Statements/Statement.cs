@@ -8,17 +8,17 @@ namespace Analyzer.Statements
     {
         public static Statement Parse(Tokenizer tokenizer)
         {
-            if (tokenizer.Current is KeywordToken keyword)
+            if (tokenizer.Current is Keyword keyword)
             {
-                if (keyword == KeywordToken.Let)
+                if (keyword == Keyword.Let)
                     return new LetStatement(tokenizer);
-                if (keyword == KeywordToken.If)
+                if (keyword == Keyword.If)
                     return new IfStatemenst(tokenizer);
-                if (keyword == KeywordToken.While)
+                if (keyword == Keyword.While)
                     return new WhileStatement(tokenizer);
-                if (keyword == KeywordToken.Do)
+                if (keyword == Keyword.Do)
                     return new DoStatement(tokenizer);
-                if (keyword == KeywordToken.Return)
+                if (keyword == Keyword.Return)
                     return new ReturntStatment(tokenizer);
             }
             
@@ -27,21 +27,13 @@ namespace Analyzer.Statements
 
         public static bool CanParse(Tokenizer tokenizer)
         {
-            if (!(tokenizer.Current is KeywordToken keyword)) return false;
+            if (!(tokenizer.Current is Keyword keyword)) return false;
 
-            return keyword == KeywordToken.Let ||
-                   keyword == KeywordToken.If ||
-                   keyword == KeywordToken.While ||
-                   keyword == KeywordToken.Do ||
-                   keyword == KeywordToken.Return;
-        }
-        
-        public static IEnumerable<Statement> ParseStatements(Tokenizer tokenizer)
-        {
-            while (CanParse(tokenizer))
-            {
-                yield return Parse(tokenizer);
-            }
+            return keyword == Keyword.Let ||
+                   keyword == Keyword.If ||
+                   keyword == Keyword.While ||
+                   keyword == Keyword.Do ||
+                   keyword == Keyword.Return;
         }
     }
 }

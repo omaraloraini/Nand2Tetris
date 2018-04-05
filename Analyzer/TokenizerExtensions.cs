@@ -19,7 +19,7 @@ namespace Analyzer
         public static Tokenizer CurrentIs(this Tokenizer tokenizer, 
             Func<Token, bool> predicate)
         {
-            if (predicate(tokenizer.Current))
+            if (!predicate(tokenizer.Current))
             {
                 throw new ArgumentException($"Unexpected token: {tokenizer.Current}");
             }
@@ -39,15 +39,15 @@ namespace Analyzer
         }
 
         public static Tokenizer CurrentIsKeyword(this Tokenizer tokenizer) =>
-            CurrentOfType(tokenizer, typeof(KeywordToken));
+            CurrentOfType(tokenizer, typeof(Keyword));
         public static Tokenizer CurrentIsSymbol(this Tokenizer tokenizer) =>
-            CurrentOfType(tokenizer, typeof(SymbolToken));
+            CurrentOfType(tokenizer, typeof(Symbol));
         public static Tokenizer CurrentIsIntegerConstant(this Tokenizer tokenizer) =>
-            CurrentOfType(tokenizer, typeof(IntegerToken));
+            CurrentOfType(tokenizer, typeof(IntegerConstant));
         public static Tokenizer CurrentIsStringConstant(this Tokenizer tokenizer) =>
-            CurrentOfType(tokenizer, typeof(StringToken));
+            CurrentOfType(tokenizer, typeof(StringConstant));
         public static Tokenizer CurrentIsIdentifier(this Tokenizer tokenizer) =>
-            CurrentOfType(tokenizer, typeof(IdentifierToken));
+            CurrentOfType(tokenizer, typeof(Identifier));
 
         public static Tokenizer ApplyThenMove(this Tokenizer tokenizer, Action<Tokenizer> action)
         {

@@ -31,35 +31,35 @@ namespace Analyzer.Tokens
         protected void ExpressionWithInParentheses(Tokenizer tokenizer)
         {
             tokenizer
-                .CurrentIs(SymbolToken.OpenParenthesis)
+                .CurrentIs(Symbol.OpenParenthesis)
                 .ApplyThenMove(AddCurrent)
                 .Apply(AddExpresion)
-                .CurrentIs(SymbolToken.CloseParenthesis)
+                .CurrentIs(Symbol.CloseParenthesis)
                 .ApplyThenMove(AddCurrent);
         }
 
         protected void ExpressionWithInBrackets(Tokenizer tokenizer)
         {
             tokenizer
-                .CurrentIs(SymbolToken.OpenBracket)
+                .CurrentIs(Symbol.OpenBracket)
                 .ApplyThenMove(AddCurrent)
                 .Apply(AddExpresion)
-                .CurrentIs(SymbolToken.CloseBracket)
+                .CurrentIs(Symbol.CloseBracket)
                 .ApplyThenMove(AddCurrent);
         }
         
         protected void AddStatements(Tokenizer tokenizer)
         {
-            Tokens.AddRange(Statement.ParseStatements(tokenizer));
+            Tokens.Add(new Statements.Statements(tokenizer));
         }
 
         protected void StatementsWithInCurlyBrackets(Tokenizer tokenizer)
         {
             tokenizer
-                .CurrentIs(SymbolToken.OpenCurly)
+                .CurrentIs(Symbol.OpenCurly)
                 .ApplyThenMove(AddCurrent)
                 .Apply(AddStatements)
-                .CurrentIs(SymbolToken.CloseCurly)
+                .CurrentIs(Symbol.CloseCurly)
                 .ApplyThenMove(AddCurrent);
         }
 

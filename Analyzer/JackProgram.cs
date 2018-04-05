@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices.ComTypes;
 using Analyzer.Tokens;
-using static Analyzer.Tokens.KeywordToken;
+using static Analyzer.Tokens.Keyword;
 
 namespace Analyzer
 {
@@ -12,78 +12,109 @@ namespace Analyzer
             tokenizer
                 .CurrentIs(Class)
                 .ApplyThenMove(AddCurrent)
-                .CurrentIs(SymbolToken.OpenCurly)
+                .CurrentIsIdentifier()
                 .ApplyThenMove(AddCurrent)
-                .Apply(ClassLevelDeclarations)
+                .CurrentIs(Symbol.OpenCurly)
+                .ApplyThenMove(AddCurrent)
+                .Apply(ClassVariableDeclarations)
                 .Apply(SubroutineDeclarations)
-                .CurrentIs(SymbolToken.CloseCurly)
+                .CurrentIs(Symbol.CloseCurly)
                 .ApplyThenMove(AddCurrent);
         }
 
         private void SubroutineDeclarations(Tokenizer tokenizer)
         {
-            while (tokenizer.Current is KeywordToken keyword && (
+            while (tokenizer.Current is Keyword keyword && (
                        keyword == Constructor || keyword == Function || keyword == Method))
             {
-                tokenizer
-                    .ApplyThenMove(AddCurrent)
-                    .CurrentIs(t =>
-                        t is KeywordToken k && k == KeywordToken.Void ||
-                        TypeDeclaration(t))
-                    .ApplyThenMove(AddCurrent)
-                    .CurrentIsIdentifier()
-                    .ApplyThenMove(AddCurrent)
-                    .CurrentIs(SymbolToken.OpenParenthesis)
-                    .ApplyThenMove(AddCurrent)
-                    .Apply(ParameterList)
-                    .CurrentIs(SymbolToken.CloseParenthesis)
-                    .Apply(SubroutineBody);
+                Tokens.Add(new SubroutineDeclaration(tokenizer));
+            }
+        }
+        
+        private void ClassVariableDeclarations(Tokenizer tokenizer)
+        {
+            while (tokenizer.Current is Keyword keyword && (keyword == Static || keyword == Field))
+            {
+                Tokens.Add(new ClassVariableDeclaration(tokenizer));
             }
         }
 
-        private void SubroutineBody(Tokenizer tokenizer)
+        public class SubroutineDeclaration : CompositeToken
         {
-            tokenizer
-                .CurrentIs(SymbolToken.OpenCurly)
-                .Apply(VaribleDeclarations)
-                .Apply(AddStatements)
-                .CurrentIs(SymbolToken.CloseCurly)
-                .Apply(AddCurrent);
+            public SubroutineDeclaration(Tokenizer tokenizer)
+            {
+                tokenizer
+                    .CurrentIs(t => 
+                        t is Keyword k && ( k == Constructor || k == Function || k == Method))
+                    .ApplyThenMove(AddCurrent)
+                    .CurrentIs(t =>
+                        t is Keyword k && k == Keyword.Void ||TypeDeclaration(t))
+                    .ApplyThenMove(AddCurrent)
+                    .CurrentIsIdentifier()
+                    .ApplyThenMove(AddCurrent)
+                    .CurrentIs(Symbol.OpenParenthesis)
+                    .ApplyThenMove(AddCurrent)
+                    .Apply(t => Tokens.Add(new ParameterList(t)))
+                    .CurrentIs(Symbol.CloseParenthesis)
+                    .ApplyThenMove(AddCurrent)
+                    .Apply(t => Tokens.Add(new SubroutineBody(t)));
+            }
         }
-
-        private void VaribleDeclarations(Tokenizer tokenizer)
+        
+        public class SubroutineBody : CompositeToken
         {
-            tokenizer
-                .ApplyWhile(Var, t => t
+            public SubroutineBody(Tokenizer tokenizer)
+            {
+                tokenizer
+                    .CurrentIs(Symbol.OpenCurly)
+                    .ApplyThenMove(AddCurrent)
+                    .ApplyWhile(Var, t => Tokens.Add(new VaribleDeclaration(t)))
+                    .Apply(AddStatements)
+                    .CurrentIs(Symbol.CloseCurly)
+                    .ApplyThenMove(AddCurrent);
+            }
+        }
+        
+        public class VaribleDeclaration : CompositeToken
+        {
+            public VaribleDeclaration(Tokenizer tokenizer)
+            {
+                tokenizer
+                    .CurrentIs(Var)
                     .Apply(AddCurrent) // VAR
                     .CurrentIs(TypeDeclaration)
                     .Apply(AddCurrent)
                     .CurrentIsIdentifier()
                     .Apply(AddCurrent)
-                    .ApplyIf(SymbolToken.Commna, s => s
+                    .ApplyIf(Symbol.Commna, s => s
                         .Apply(AddCurrent)
                         .CurrentIsIdentifier()
                         .Apply(AddCurrent))
-                    .CurrentIs(SymbolToken.SemiColon)
-                    .Apply(AddCurrent));
-        }
-
-        private void ParameterList(Tokenizer tokenizer)
-        {
-            while (!tokenizer.Current.Equals(SymbolToken.CloseParenthesis))
-            {
-                tokenizer
-                    .CurrentIs(TypeDeclaration)
-                    .ApplyThenMove(AddCurrent)
-                    .CurrentIsIdentifier()
-                    .ApplyThenMove(AddCurrent);
+                    .CurrentIs(Symbol.SemiColon)
+                    .Apply(AddCurrent);
             }
         }
-
-        private void ClassLevelDeclarations(Tokenizer tokenizer)
+        
+        public class ParameterList : CompositeToken
         {
-            while (tokenizer.Current is KeywordToken keyword && (
-                       keyword == Static || keyword == Field))
+            public ParameterList(Tokenizer tokenizer)
+            {
+                while (!tokenizer.Current.Equals(Symbol.CloseParenthesis))
+                {
+                    tokenizer
+                        .CurrentIs(TypeDeclaration)
+                        .ApplyThenMove(AddCurrent)
+                        .CurrentIsIdentifier()
+                        .ApplyThenMove(AddCurrent)
+                        .ApplyIf(Symbol.Commna, t => t
+                            .ApplyThenMove(AddCurrent));
+                }
+            }
+        }
+        
+        public class ClassVariableDeclaration : CompositeToken
+        {
+            public ClassVariableDeclaration(Tokenizer tokenizer)
             {
                 tokenizer
                     .ApplyThenMove(AddCurrent) // STATIC OR FIELD
@@ -91,21 +122,21 @@ namespace Analyzer
                     .ApplyThenMove(AddCurrent)
                     .CurrentIsIdentifier()
                     .ApplyThenMove(AddCurrent)
-                    .ApplyWhile(SymbolToken.Commna, t => t
+                    .ApplyWhile(Symbol.Commna, t => t
                         .ApplyThenMove(AddCurrent)
                         .CurrentIsIdentifier()
                         .ApplyThenMove(AddCurrent))
-                    .CurrentIs(SymbolToken.SemiColon)
+                    .CurrentIs(Symbol.SemiColon)
                     .ApplyThenMove(AddCurrent);
             }
         }
 
         private static bool TypeDeclaration(Token token)
         {
-            return 
-                token is IdentifierToken ||
-                token is KeywordToken k && (
-                    k == Int || k == KeywordToken.Char || k == KeywordToken.Boolean);
+            return
+                token is Identifier ||
+                token is Keyword k && (
+                    k == Int || k == Keyword.Char || k == Keyword.Boolean);
         }
     }
 }

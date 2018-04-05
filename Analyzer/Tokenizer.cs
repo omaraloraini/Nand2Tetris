@@ -46,7 +46,7 @@ namespace Analyzer
                     continue;
                 }
                 
-                if (SymbolToken.IsSymbol(source[i]))
+                if (Symbol.IsSymbol(source[i]))
                 {
                     tokens.Add(Token.Parse(source[i].ToString()));
                     continue;
@@ -62,7 +62,7 @@ namespace Analyzer
                 }
 
                 while (j < source.Length && !char.IsWhiteSpace(source[j]) &&
-                       source[j] != '"' && !SymbolToken.IsSymbol(source[j]))
+                       source[j] != '"' && !Symbol.IsSymbol(source[j]))
                 {
                     j++;
                 }
