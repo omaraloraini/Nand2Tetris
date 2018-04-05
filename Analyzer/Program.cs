@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Analyzer.Expressions;
+using Analyzer.ProgramStructures;
 using Analyzer.Statements;
 using Analyzer.Tokens;
 
@@ -13,52 +14,48 @@ namespace Analyzer
     {
         static void Main(string[] args)
         {
+            if (args.Length == 0)
+            {
+                Console.WriteLine("Please supply a file");
+                return;
+            }
+
+            var text = File.ReadAllText(args[0]);
+            var xml = ParseToXml(text);
+            File.WriteAllText(args[0].Replace(".jack", ".xml"), xml.ToString());
         }
 
         private static XElement ParseToXml(string source)
         {
             var tokenizer = Tokenizer.Tokenize(source);
-            var jackProgram = new JackProgram(tokenizer);
-            var xElement = new XElement("class");
-            ParseToXml(jackProgram.Tokens, xElement);
-            return xElement;
+            var jackProgram = new JackClass(tokenizer);
+            return ParseToXml(new List<IToken> {jackProgram});
         }
 
-        private static void ParseToXml(IList<IToken> tokens, XElement xElement)
+        private static XElement ParseToXml(ICollection<IToken> tokens)
         {
-            foreach (var iToken in tokens)
+            if (tokens.Count != 1) throw new ArgumentException();
+            if (!(tokens.First() is JackClass)) throw new ArgumentException();
+            
+            var root = new XElement(nameof(JackClass));
+            Parse(((CompositeToken)tokens.First()).Tokens, root);
+            return root;
+
+            void Parse(IList<IToken> list, XContainer parent)
             {
-                XElement element;
-                switch (iToken)
+                foreach (var iToken in list)
                 {
-                    case JackProgram.ClassVariableDeclaration variableDeclaration:
-                        element = new XElement("classVarDec", string.Empty);
-                        ParseToXml(variableDeclaration.Tokens, element);
-                        xElement.Add(element);
-                        break;
-                    case JackProgram.SubroutineBody subroutineBody:
-                        element = new XElement("subroutineBody", string.Empty);
-                        ParseToXml(subroutineBody.Tokens, element);
-                        xElement.Add(element);
-                        break;
-                    case JackProgram.SubroutineDeclaration subroutineDeclaration:
-                        element = new XElement("subroutineDec", string.Empty);
-                        ParseToXml(subroutineDeclaration.Tokens, element);
-                        xElement.Add(element);
-                        break;
-                    case JackProgram.VaribleDeclaration varibleDeclaration:
-                        element = new XElement("varDec", string.Empty);
-                        ParseToXml(varibleDeclaration.Tokens, element);
-                        xElement.Add(element);
-                        break;
-                    case CompositeToken compositeToken:
-                        element = new XElement(ToCamelCase(compositeToken.GetType().Name), string.Empty);
-                        ParseToXml(compositeToken.Tokens, element);
-                        xElement.Add(element);
-                        break;
-                    case Token token:
-                        xElement.Add(new XElement(ToCamelCase(token.GetType().Name), token.Value));
-                        break;
+                    switch (iToken)
+                    {
+                        case CompositeToken compositeToken:
+                            var element = new XElement(compositeToken.GetType().Name);
+                            Parse(compositeToken.Tokens, element);
+                            parent.Add(element);
+                            break;
+                        case Token token:
+                            parent.Add(new XElement(ToCamelCase(token.GetType().Name), token.Value));
+                            break;
+                    }
                 }
             }
         }
