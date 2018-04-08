@@ -23,14 +23,14 @@ namespace VirtualMachine
                 .Select(fileInfo => fileInfo.Name)
                 .ToDictionary(
                     fileName => fileName.Replace(".vm", ""),
-                    Read);
+                    File.ReadAllLines);
 
 
             if (vmFiles.Count == 0) return;
 
 
             var outputFile = directoryInfo.Name + ".asm";
-            Write(outputFile, HackTranslator.Translate(vmFiles));
+            File.WriteAllLines(outputFile, HackTranslator.Translate(vmFiles));
         }
 
         private static void SingleFileTranslation(string fileName)
@@ -39,24 +39,14 @@ namespace VirtualMachine
             {
                 var name = fileName.Replace(".vm", "");
                 var outputFile = fileName.Replace(".vm", ".asm");
-                var assembly = HackTranslator.Translate(name, Read(fileName));
-                Write(outputFile, assembly);
+                var assembly = HackTranslator.Translate(name, File.ReadAllLines(fileName));
+                File.WriteAllLines(outputFile, assembly);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 throw;
             }
-        }
-
-        private static void Write(string fileName, IEnumerable<string> assembly)
-        {
-            File.WriteAllLines(fileName, assembly, Encoding.ASCII);
-        }
-
-        private static string[] Read(string fileName)
-        {
-            return File.ReadAllLines(fileName);
         }
     }
 }

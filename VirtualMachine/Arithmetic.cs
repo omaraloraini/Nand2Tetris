@@ -1,6 +1,6 @@
 ﻿namespace VirtualMachine
 {
-    public class ArithmeticCommand
+    public static class Arithmetic
     {
         public static Command Add()
         {

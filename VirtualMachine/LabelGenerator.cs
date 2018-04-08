@@ -24,11 +24,6 @@ namespace VirtualMachine
             ["Call"] = "ret",
         };
 
-        public LabelGenerator()
-        {
-            _functionName = "";
-        }
-        
         public LabelGenerator(string functionName)
         {
             _functionName = functionName;

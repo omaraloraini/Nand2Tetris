@@ -1,6 +1,6 @@
 ﻿namespace VirtualMachine
 {
-    public class BranchingCommand
+    public class Branching
     {
         public static Command Label(Label label) =>
             new Command(new[] {label.Declaration});
