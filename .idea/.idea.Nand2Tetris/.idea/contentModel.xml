@@ -90,8 +90,8 @@
         <e p="Arithmetic.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="Bitwise.cs" t="Include" />
-        <e p="Branching.cs" t="Include" />
         <e p="Command.cs" t="Include" />
+        <e p="Commands.cs" t="Include" />
         <e p="Comparsion.cs" t="Include" />
         <e p="Function.cs" t="Include" />
         <e p="HackTranslator.cs" t="Include" />

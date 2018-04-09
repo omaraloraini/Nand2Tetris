@@ -24,33 +24,33 @@ namespace VirtualMachine
             
             switch (command)
             {
-                case "add": return Arithmetic.Add();
-                case "sub": return Arithmetic.Sub();
-                case "neg": return Arithmetic.Neg();
-                case "and": return Bitwise.And();
-                case "or": return Bitwise.Or();
-                case "not": return Bitwise.Not();
-                case "eq": return Comparsion.Equal(generator);
-                case "gt": return Comparsion.GreateThan(generator);
-                case "lt": return Comparsion.LessThan(generator);
+                case "add": return Commands.Arithmetic.Add();
+                case "sub": return Commands.Arithmetic.Sub();
+                case "neg": return Commands.Arithmetic.Neg();
+                case "and": return Commands.Bitwise.And();
+                case "or": return Commands.Bitwise.Or();
+                case "not": return Commands.Bitwise.Not();
+                case "eq": return Commands.Comparsion.Equal(generator);
+                case "gt": return Commands.Comparsion.GreateThan(generator);
+                case "lt": return Commands.Comparsion.LessThan(generator);
                 case "function": return Function.DeclareFunction(arg1, arg2);
                 case "call": return Function.Call(arg1, arg2, generator);
                 case "return": return Function.Retrun();
-                case "goto": return Branching.Goto(arg1);
-                case "if-goto": return Branching.IfGoto(arg1);
-                case "label": return Branching.Label(arg1);
+                case "goto": return Commands.Goto(arg1);
+                case "if-goto": return Commands.IfGoto(arg1);
+                case "label": return Commands.Label(arg1);
                 case "push":
                 {
                     switch (arg1)
                     {
-                        case "constant": return Push.Constant(arg2);
-                        case "local": return Push.Local(arg2);
-                        case "argument": return Push.Argument(arg2);
-                        case "this": return Push.This(arg2);
-                        case "that": return Push.That(arg2);
-                        case "temp": return Push.Temp(arg2);
-                        case "pointer": return Push.Pointer(arg2);
-                        case "static": return Push.Static(fileName ,arg2);
+                        case "constant": return Commands.Push.Constant(arg2);
+                        case "local": return Commands.Push.Local(arg2);
+                        case "argument": return Commands.Push.Argument(arg2);
+                        case "this": return Commands.Push.This(arg2);
+                        case "that": return Commands.Push.That(arg2);
+                        case "temp": return Commands.Push.Temp(arg2);
+                        case "pointer": return Commands.Push.Pointer(arg2);
+                        case "static": return Commands.Push.Static(fileName ,arg2);
                         default: throw new ArgumentException("Invalid segment");
                     }
                 }
@@ -58,13 +58,13 @@ namespace VirtualMachine
                 {
                     switch (arg1)
                     {
-                        case "local": return Pop.Local(arg2);
-                        case "argument": return Pop.Argument(arg2);
-                        case "this": return Pop.This(arg2);
-                        case "that": return Pop.That(arg2);
-                        case "temp": return Pop.Temp(arg2);
-                        case "pointer": return Pop.Pointer(arg2);
-                        case "static": return Pop.Static(fileName ,arg2);
+                        case "local": return Commands.Pop.Local(arg2);
+                        case "argument": return Commands.Pop.Argument(arg2);
+                        case "this": return Commands.Pop.This(arg2);
+                        case "that": return Commands.Pop.That(arg2);
+                        case "temp": return Commands.Pop.Temp(arg2);
+                        case "pointer": return Commands.Pop.Pointer(arg2);
+                        case "static": return Commands.Pop.Static(fileName ,arg2);
                         default: throw new ArgumentException("Invalid segment");
                     }
                 }

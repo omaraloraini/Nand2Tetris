@@ -1,41 +1,44 @@
 ﻿namespace VirtualMachine
 {
-    public static class Arithmetic
+    public static partial class Commands
     {
-        public static Command Add()
+        public static class Arithmetic
         {
-            return new Command(
-                new[]
-                {
-                    "@SP",
-                    "AM=M-1",
-                    "D=M",
-                    "A=A-1",
-                    "M=D+M"
-                });
-        }
-
-        public static Command Sub()
-        {
-            return new Command(
-                new[]
-                {
-                    "@SP",
-                    "AM=M-1",
-                    "D=-M",
-                    "A=A-1",
-                    "M=D+M"
-                });
-        }
-
-        public static Command Neg()
-        {
-            return new Command(new[]
+            public static Command Add()
             {
-                "@SP",
-                "A=M-1",
-                "M=-M"
-            });
+                return new Command(
+                    new[]
+                    {
+                        "@SP",
+                        "AM=M-1",
+                        "D=M",
+                        "A=A-1",
+                        "M=D+M"
+                    });
+            }
+
+            public static Command Sub()
+            {
+                return new Command(
+                    new[]
+                    {
+                        "@SP",
+                        "AM=M-1",
+                        "D=-M",
+                        "A=A-1",
+                        "M=D+M"
+                    });
+            }
+
+            public static Command Neg()
+            {
+                return new Command(new[]
+                {
+                    "@SP",
+                    "A=M-1",
+                    "M=-M"
+                });
+            }
         }
     }
 }

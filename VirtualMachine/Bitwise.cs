@@ -1,41 +1,44 @@
 ﻿namespace VirtualMachine
 {
-    public class Bitwise
+    public static partial class Commands
     {
-        public static Command And()
+        public class Bitwise
         {
-            return new Command(
-                new[]
-                {
-                    "@SP",
-                    "AM=M-1",
-                    "D=M",
-                    "A=A-1",
-                    "M=D&M"
-                });
-        }
-
-        public static Command Or()
-        {
-            return new Command(
-                new[]
-                {
-                    "@SP",
-                    "AM=M-1",
-                    "D=M",
-                    "A=A-1",
-                    "M=D|M"
-                });
-        }
-
-        public static Command Not()
-        {
-            return new Command(new[]
+            public static Command And()
             {
-                "@SP",
-                "A=M-1",
-                "M=!M"
-            });
+                return new Command(
+                    new[]
+                    {
+                        "@SP",
+                        "AM=M-1",
+                        "D=M",
+                        "A=A-1",
+                        "M=D&M"
+                    });
+            }
+
+            public static Command Or()
+            {
+                return new Command(
+                    new[]
+                    {
+                        "@SP",
+                        "AM=M-1",
+                        "D=M",
+                        "A=A-1",
+                        "M=D|M"
+                    });
+            }
+
+            public static Command Not()
+            {
+                return new Command(new[]
+                {
+                    "@SP",
+                    "A=M-1",
+                    "M=!M"
+                });
+            }
         }
     }
 }
