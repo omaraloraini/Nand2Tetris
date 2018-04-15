@@ -1,8 +1,9 @@
 ﻿using System;
+using Analyzer.Expressions;
 
 namespace Analyzer.Tokens
 {
-    public class IntegerConstant : Token, IEquatable<IntegerConstant>
+    public class IntegerConstant : Token, ITerm, IEquatable<IntegerConstant>
     {
         public int Integer { get; }
 

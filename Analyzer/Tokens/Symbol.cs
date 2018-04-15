@@ -5,17 +5,13 @@ namespace Analyzer.Tokens
 {
     public class Symbol : Token, IEquatable<Symbol>
     {
-        public char Value { get; }
-
         private static Regex _symbolRegex = new Regex(
             @"{|}|\(|\)|\[|\]|\.|,|;|\+|\-|\*|/|&|\||<|>|=|~");
         
         public Symbol(char value) : base(value.ToString())
         {
             if (!_symbolRegex.IsMatch(value.ToString()))
-                throw new ArgumentException($"{value} : invalid symbol");
-            
-            Value = value;
+                throw new ArgumentException($"{value} : invalid symbol");    
         }
         
         public static bool IsSymbol(char symbol) =>
@@ -59,6 +55,6 @@ namespace Analyzer.Tokens
         public override int GetHashCode() => Value.GetHashCode();
         public static bool operator ==(Symbol left, Symbol right) => Equals(left, right);
         public static bool operator !=(Symbol left, Symbol right) => !Equals(left, right);
-        public override string ToString() => Value.ToString();
+        public override string ToString() => Value;
     }
 }

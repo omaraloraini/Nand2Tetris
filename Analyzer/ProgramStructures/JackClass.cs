@@ -1,38 +1,63 @@
-﻿using Analyzer.Tokens;
+﻿using System;
+using System.Collections.Generic;
+using Analyzer.Statements;
+using Analyzer.Tokens;
 
 namespace Analyzer.ProgramStructures
 {
-    public class JackClass : ProgramStructure
+    public class JackClass
     {
+        public Identifier ClassName { get; set; }
+        public List<Varible> Fields { get; } = new List<Varible>();
+        public List<Varible> StaticFields { get; } = new List<Varible>();
+        public IEnumerable<Subroutine> Subroutines { get; set; }
+
         public JackClass(Tokenizer tokenizer)
         {
-            tokenizer
-                .CurrentIs(Keyword.Class)
-                .ApplyThenMove(AddCurrent)
-                .CurrentIsIdentifier()
-                .ApplyThenMove(AddCurrent)
-                .CurrentIs(Symbol.OpenCurly)
-                .ApplyThenMove(AddCurrent)
-                .Apply(ClassVariableDeclarations)
-                .Apply(SubroutineDeclarations)
-                .CurrentIs(Symbol.CloseCurly)
-                .ApplyThenMove(AddCurrent);
+            tokenizer.CurrentIs(Keyword.Class).Move().CurrentIsIdentifier();
+            ClassName = tokenizer.GetCurrentThenMove() as Identifier;
+            tokenizer.CurrentIs(Symbol.OpenCurly).Move();
+            AddClassLevelVaribles(tokenizer);
+            Subroutines = ParseSubroutine(tokenizer);
         }
 
-        private void SubroutineDeclarations(Tokenizer tokenizer)
+        private static IEnumerable<Subroutine> ParseSubroutine(Tokenizer tokenizer)
         {
             while (tokenizer.Current is Keyword keyword && (
                        keyword == Keyword.Constructor || keyword == Keyword.Function || keyword == Keyword.Method))
             {
-                Tokens.Add(new SubroutineDeclaration(tokenizer));
+                yield return Subroutine.Parse(tokenizer);
             }
         }
         
-        private void ClassVariableDeclarations(Tokenizer tokenizer)
+        private void AddClassLevelVaribles(Tokenizer tokenizer)
         {
-            while (tokenizer.Current is Keyword keyword && (keyword == Keyword.Static || keyword == Keyword.Field))
+            while (tokenizer.Current is Keyword keyword && (
+                       keyword == Keyword.Static || keyword == Keyword.Field))
             {
-                Tokens.Add(new ClassVariableDeclaration(tokenizer));
+                tokenizer.Move().CurrentIs(VaribleType.IsValid);
+                var type = new VaribleType(tokenizer.GetCurrentThenMove());
+
+                tokenizer.CurrentIsIdentifier();
+                AddVarible(keyword, 
+                    new Varible(type, tokenizer.GetCurrentThenMove() as Identifier));
+
+                while (tokenizer.Current.Equals(Symbol.Commna))
+                {
+                    tokenizer.Move().CurrentIsIdentifier();
+                    AddVarible(keyword, 
+                        new Varible(type, tokenizer.GetCurrentThenMove() as Identifier));
+                }
+
+                tokenizer.CurrentIs(Symbol.SemiColon).Move();
+            }
+
+            void AddVarible(Keyword keyword, Varible varible)
+            {
+                if (keyword == Keyword.Field)
+                    Fields.Add(varible);
+                else
+                    StaticFields.Add(varible);
             }
         }
     }

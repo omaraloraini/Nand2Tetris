@@ -1,18 +1,22 @@
-﻿using Analyzer.Tokens;
+﻿using Analyzer.Expressions;
+using Analyzer.Tokens;
 
 namespace Analyzer.Statements
 {
     public class ReturntStatment : Statement
     {
+        public Expression Expression { get;}
         public ReturntStatment(Tokenizer tokenizer)
         {
-            tokenizer
-                .CurrentIs(Keyword.Return)
-                .ApplyThenMove(AddCurrent)
-                .ApplyIfNot(Symbol.SemiColon, t => t
-                    .Apply(AddExpresion))
-                .CurrentIs(Symbol.SemiColon)
-                .ApplyThenMove(AddCurrent);
+            tokenizer.CurrentIs(Keyword.Return).Move();
+
+            if (!tokenizer.Current.Equals(Symbol.SemiColon))
+            {
+                tokenizer.Move();
+                Expression = new Expression(tokenizer);
+            }
+
+            tokenizer.CurrentIs(Symbol.SemiColon).Move();
         }
     }
 }

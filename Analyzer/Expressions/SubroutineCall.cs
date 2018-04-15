@@ -1,23 +1,31 @@
-﻿using Analyzer.Tokens;
+﻿using System.Collections.Generic;
+using Analyzer.Tokens;
 
 namespace Analyzer.Expressions
 {
-    public class SubroutineCall : Expression
+    public class SubroutineCall : ITerm
     {
-        public SubroutineCall(Tokenizer tokenizer)
+        public Identifier CalledOn { get; }
+        public Identifier SobroutineName { get; }
+        
+        private List<Expression> _parametars = new List<Expression>();
+        public IEnumerable<Expression> Parametars => _parametars;
+
+        public SubroutineCall(Identifier calledOn, Identifier sobroutineName,
+            Tokenizer tokenizer)
         {
-            tokenizer
-                .CurrentIsIdentifier()
-                .ApplyThenMove(AddCurrent)
-                .ApplyIf(Symbol.Dot, t => t
-                    .ApplyThenMove(AddCurrent)
-                    .CurrentIsIdentifier()
-                    .ApplyThenMove(AddCurrent))
-                .CurrentIs(Symbol.OpenParenthesis)
-                .ApplyThenMove(AddCurrent)
-                .Apply(ExpressionList)
-                .CurrentIs(Symbol.CloseParenthesis)
-                .ApplyThenMove(AddCurrent);
+            tokenizer.CurrentIs(Symbol.OpenParenthesis).Move();
+            
+            CalledOn = calledOn;
+            SobroutineName = sobroutineName;
+            while (!tokenizer.Current.Equals(Symbol.CloseParenthesis))
+            {
+                if (tokenizer.Current.Equals(Symbol.Commna)) tokenizer.Move();
+
+                _parametars.Add(new Expression(tokenizer));
+            }
+            
+            tokenizer.CurrentIs(Symbol.CloseParenthesis).Move();
         }
     }
 }

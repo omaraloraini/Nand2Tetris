@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using Analyzer.Tokens;
 
 namespace Analyzer
 {
-    public class Tokenizer
+    public class Tokenizer : IEnumerable<Token>
     {
         private LinkedList<Token> _list;
         private LinkedListNode<Token> _node;
-        public Token Current => _node.Value;
+        public Token Current => _node?.Value;
         public Token Next => _node.Next?.Value;
-        public bool IsEmpty => _list.Count == 0;
 
-        private Tokenizer(){}
         public Tokenizer(IEnumerable<Token> tokens)
         {
             _list = new LinkedList<Token>(tokens);
@@ -23,6 +22,13 @@ namespace Analyzer
         {
             _node = _node.Next;
             return this;
+        }
+
+        public Token GetCurrentThenMove()
+        {
+            var current = Current;
+            Move();
+            return current;
         }
         
         public static Tokenizer Tokenize(string source)
@@ -73,5 +79,8 @@ namespace Analyzer
             
             return new Tokenizer(tokens);
         }
+
+        public IEnumerator<Token> GetEnumerator() => _list.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable) _list).GetEnumerator();
     }
 }

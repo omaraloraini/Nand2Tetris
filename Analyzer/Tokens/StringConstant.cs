@@ -1,21 +1,19 @@
 ﻿using System;
+using Analyzer.Expressions;
 
 namespace Analyzer.Tokens
 {
-    public class StringConstant : Token, IEquatable<StringConstant>
+    public class StringConstant : Token, ITerm, IEquatable<StringConstant>
     {
-        public string String { get; }
-
         public StringConstant(string @string) : base(@string)
         {
-            String = @string;
         }
 
         public bool Equals(StringConstant other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return string.Equals(String, other.String);
+            return string.Equals(Value, other.Value);
         }
 
         public override bool Equals(object obj)
@@ -26,9 +24,9 @@ namespace Analyzer.Tokens
             return Equals((StringConstant) obj);
         }
 
-        public override int GetHashCode() => (String != null ? String.GetHashCode() : 0);
+        public override int GetHashCode() => (Value != null ? Value.GetHashCode() : 0);
         public static bool operator ==(StringConstant left, StringConstant right) => Equals(left, right);
         public static bool operator !=(StringConstant left, StringConstant right) => !Equals(left, right);
-        public override string ToString() => String;
+        public override string ToString() => Value;
     }
 }

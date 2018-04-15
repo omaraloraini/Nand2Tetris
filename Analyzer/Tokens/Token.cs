@@ -2,13 +2,13 @@
 
 namespace Analyzer.Tokens
 {
-    public abstract class Token : IToken
+    public abstract class Token
     {
-        public string Value { get; protected set; }
+        public string Value { get; }
 
         protected Token(string value)
         {
-            Value = value;
+            Value = value ?? throw new ArgumentNullException(nameof(value));
         }
         
         public static Token Parse(string value)
@@ -17,7 +17,11 @@ namespace Analyzer.Tokens
 
             if (value.StartsWith('"') && value.EndsWith('"'))
                 return new StringConstant(value.Substring(1, value.Length - 2));
-            
+
+            // TODO: FACTORY METHOD TO AVOID CREATING NEW OBJECTS
+            if (KeywordConstant.IsKeywordConstant(value))
+                return new KeywordConstant(value);
+                
             if (Keyword.IsKeyword(value))
                 return new Keyword(value);
             

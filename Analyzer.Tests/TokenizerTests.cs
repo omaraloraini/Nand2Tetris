@@ -78,8 +78,7 @@ namespace Analyzer.Tests
                 .Should()
                 .HaveCount(14)
                 .And
-                .ContainInOrder(new Token[]
-                {
+                .ContainInOrder(
                     Keyword.If,
                     Symbol.OpenParenthesis,
                     new Identifier("x"),
@@ -91,10 +90,9 @@ namespace Analyzer.Tests
                     Symbol.Equal,
                     new Identifier("x"),
                     Symbol.Star,
-                    new IntegerConstant(2),
+                    new IntegerConstant(2), 
                     Symbol.SemiColon,
-                    Symbol.CloseCurly
-                });
+                    Symbol.CloseCurly);
         }
     }
 }

@@ -4,7 +4,7 @@ using Analyzer.Tokens;
 
 namespace Analyzer.Statements
 {
-    public abstract class Statement : CompositeToken
+    public abstract class Statement
     {
         public static Statement Parse(Tokenizer tokenizer)
         {
@@ -13,7 +13,7 @@ namespace Analyzer.Statements
                 if (keyword == Keyword.Let)
                     return new LetStatement(tokenizer);
                 if (keyword == Keyword.If)
-                    return new IfStatemenst(tokenizer);
+                    return new IfStatement(tokenizer);
                 if (keyword == Keyword.While)
                     return new WhileStatement(tokenizer);
                 if (keyword == Keyword.Do)
@@ -34,6 +34,12 @@ namespace Analyzer.Statements
                    keyword == Keyword.While ||
                    keyword == Keyword.Do ||
                    keyword == Keyword.Return;
+        }
+
+        public static IEnumerable<Statement> ParseStatements(Tokenizer tokenizer)
+        {
+            while (CanParse(tokenizer))
+                yield return Parse(tokenizer);
         }
     }
 }

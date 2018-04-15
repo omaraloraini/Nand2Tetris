@@ -1,8 +1,9 @@
 ﻿using System;
+using Analyzer.Expressions;
 
 namespace Analyzer.Tokens
 {
-    public class Identifier : Token, IEquatable<Identifier>
+    public class Identifier : Token, ITerm, IEquatable<Identifier>
     {
         public Identifier(string value) : base(value)
         {
