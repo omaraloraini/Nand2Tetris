@@ -3,12 +3,11 @@ using Analyzer.Tokens;
 
 namespace Analyzer.Expressions
 {    
-    public interface ITerm
-    {   
-        
-    }
+    public interface ITerm {}
+    
+    public interface IVarible : ITerm {}
 
-    public class ArrayIdentifier : ITerm
+    public class ArrayIdentifier : IVarible
     {
         public Identifier Identifier { get; }
         public Expression Expression { get; }

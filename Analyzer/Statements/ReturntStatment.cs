@@ -12,7 +12,6 @@ namespace Analyzer.Statements
 
             if (!tokenizer.Current.Equals(Symbol.SemiColon))
             {
-                tokenizer.Move();
                 Expression = new Expression(tokenizer);
             }
 

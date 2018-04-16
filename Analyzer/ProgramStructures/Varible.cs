@@ -10,7 +10,7 @@ namespace Analyzer.ProgramStructures
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(Name, other.Name) && Equals(VaribleType, other.VaribleType);
+            return Equals(Identifier, other.Identifier) && Equals(VaribleType, other.VaribleType);
         }
 
         public override bool Equals(object obj)
@@ -25,7 +25,7 @@ namespace Analyzer.ProgramStructures
         {
             unchecked
             {
-                return ((Name != null ? Name.GetHashCode() : 0) * 397) ^ (VaribleType != null ? VaribleType.GetHashCode() : 0);
+                return ((Identifier != null ? Identifier.GetHashCode() : 0) * 397) ^ (VaribleType != null ? VaribleType.GetHashCode() : 0);
             }
         }
 
@@ -39,13 +39,13 @@ namespace Analyzer.ProgramStructures
             return !Equals(left, right);
         }
 
-        public Varible(VaribleType varibleType, Identifier name)
+        public Varible(VaribleType varibleType, Identifier identifier)
         {
             VaribleType = varibleType;
-            Name = name;
+            Identifier = identifier;
         }
 
-        public Identifier Name { get; }
+        public Identifier Identifier { get; }
         public VaribleType VaribleType { get; }
     }
 }

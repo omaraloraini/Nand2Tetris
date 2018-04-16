@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Analyzer.Statements;
 using Analyzer.Tokens;
@@ -8,14 +9,14 @@ namespace Analyzer.ProgramStructures
     public abstract class Subroutine
     {
         public Identifier Name { get; }
-        public Identifier ReturnType { get; }
+        public VaribleType ReturnType { get; }
         public IEnumerable<Varible> Arguments { get; }
         public IEnumerable<Varible> LocalVaribles { get; }
         public IEnumerable<Statement> Statements { get; }
-        public bool IsVoid => ReturnType.Value == "void";
+        public bool IsVoid => ReturnType.Name == "void";
 
         protected Subroutine(Identifier name,
-            Identifier returnType,
+            VaribleType returnType,
             IEnumerable<Varible> arguments,
             IEnumerable<Varible> localVaribles,
             IEnumerable<Statement> statements)
@@ -37,14 +38,17 @@ namespace Analyzer.ProgramStructures
 
             var type = tokenizer.GetCurrentThenMove() as Keyword;
 
-            tokenizer.CurrentIsIdentifier();
-            var returnType = tokenizer.GetCurrentThenMove() as Identifier;
+            tokenizer.CurrentIs(VaribleType.IsValid);
+            var returnType = new VaribleType(tokenizer.GetCurrentThenMove());
             tokenizer.CurrentIsIdentifier();
             var name = tokenizer.GetCurrentThenMove() as Identifier;
 
             var parameters = ParseParameters(tokenizer);
+            
+            tokenizer.CurrentIs(Symbol.OpenCurly).Move();
             var localVaribles = ParseLocalVaribles(tokenizer);
-            var statements = Statement.ParseStatements(tokenizer);
+            var statements = Statement.ParseStatements(tokenizer).ToList();
+            tokenizer.CurrentIs(Symbol.CloseCurly).Move();
             
             if (type == Keyword.Constructor)
                 return new Constructor(name, returnType, parameters, localVaribles, statements);
@@ -97,7 +101,7 @@ namespace Analyzer.ProgramStructures
 
     public class Constructor : Subroutine
     {
-        public Constructor(Identifier name, Identifier returnType, IEnumerable<Varible> arguments,
+        public Constructor(Identifier name, VaribleType returnType, IEnumerable<Varible> arguments,
             IEnumerable<Varible> localVaribles, IEnumerable<Statement> statements) : base(name, returnType, arguments,
             localVaribles, statements)
         {
@@ -106,7 +110,7 @@ namespace Analyzer.ProgramStructures
 
     public class Function : Subroutine
     {
-        public Function(Identifier name, Identifier returnType, IEnumerable<Varible> arguments,
+        public Function(Identifier name, VaribleType returnType, IEnumerable<Varible> arguments,
             IEnumerable<Varible> localVaribles, IEnumerable<Statement> statements) : base(name, returnType, arguments,
             localVaribles, statements)
         {
@@ -115,7 +119,7 @@ namespace Analyzer.ProgramStructures
 
     public class Method : Subroutine
     {
-        public Method(Identifier name, Identifier returnType, IEnumerable<Varible> arguments,
+        public Method(Identifier name, VaribleType returnType, IEnumerable<Varible> arguments,
             IEnumerable<Varible> localVaribles, IEnumerable<Statement> statements) : base(name, returnType, arguments,
             localVaribles, statements)
         {

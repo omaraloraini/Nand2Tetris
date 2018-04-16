@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using Analyzer.Expressions;
 using Analyzer.Tokens;
 
@@ -14,18 +15,20 @@ namespace Analyzer.Statements
         
         public IfStatement(Tokenizer tokenizer)
         {
-            tokenizer.CurrentIs(Keyword.If).Move().CurrentIs(Symbol.OpenParenthesis);
-
+            tokenizer.CurrentIs(Keyword.If)
+                .Move().CurrentIs(Symbol.OpenParenthesis).Move();
+            
             Condition = new Expression(tokenizer);
+            tokenizer.CurrentIs(Symbol.CloseParenthesis).Move();
 
             tokenizer.CurrentIs(Symbol.OpenCurly).Move();
-            TrueBranch = ParseStatements(tokenizer);
+            TrueBranch = ParseStatements(tokenizer).ToList();
             tokenizer.CurrentIs(Symbol.CloseCurly).Move();
             
-            if (tokenizer.Current.Equals(Keyword.Else))
+            if (tokenizer.Current != null && tokenizer.Current.Equals(Keyword.Else))
             {
                 tokenizer.Move().CurrentIs(Symbol.OpenCurly).Move();
-                FalseBranch = ParseStatements(tokenizer);
+                FalseBranch = ParseStatements(tokenizer).ToList();
                 tokenizer.CurrentIs(Symbol.CloseCurly).Move();
             }
         }

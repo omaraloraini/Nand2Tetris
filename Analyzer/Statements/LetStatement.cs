@@ -6,20 +6,20 @@ namespace Analyzer.Statements
 {
     public class LetStatement : Statement
     {
-        public ITerm Varible { get; set; }
+        public IVarible Varible { get; set; }
         public Expression Expression { get; set; }
         
         public LetStatement(Tokenizer tokenizer)
         {
             tokenizer.CurrentIs(Keyword.Let).Move().CurrentIsIdentifier();
 
-            if (tokenizer.Next.Equals(Symbol.Dot))
+            if (tokenizer.Next.Equals(Symbol.OpenBracket))
             {
-                Varible = new ArrayIdentifier(tokenizer.Current as Identifier, tokenizer.Move());
+                Varible = new ArrayIdentifier(tokenizer.GetCurrentThenMove() as Identifier, tokenizer);
             }
             else
             {
-                Varible = tokenizer.Current as Identifier;
+                Varible = tokenizer.GetCurrentThenMove() as Identifier;
             }
 
             tokenizer.CurrentIs(Symbol.Equal).Move();
