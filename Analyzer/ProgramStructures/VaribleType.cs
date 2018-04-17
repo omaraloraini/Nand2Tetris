@@ -15,6 +15,8 @@ namespace Analyzer.ProgramStructures
             if (!IsValid(token)) throw new ArgumentException("Invalid type");
             _token = token;
         }
+
+        public VaribleType(string type) : this(new Identifier(type)) {}
             
         public static bool IsValid(Token token)
         {

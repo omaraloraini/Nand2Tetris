@@ -95,6 +95,7 @@
       <e p="Compiler" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
         <e p="Compiler.csproj" t="IncludeRecursive" />
+        <e p="JackClassCompilationUnit.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp2.0" t="Include">
@@ -103,6 +104,7 @@
           </e>
         </e>
         <e p="Program.cs" t="Include" />
+        <e p="SubroutineCompilationUnit.cs" t="Include" />
       </e>
       <e p="Nand2Tetris.sln" t="IncludeFlat" />
       <e p="packages" t="ExcludeRecursive" />

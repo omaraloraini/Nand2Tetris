@@ -8,9 +8,10 @@ namespace VirtualMachine
     {
         public class Comparsion
         {
-            private static Command Compare(string jump, Label label)
+            private static Command Compare(string name, string jump, Label label)
             {
                 return new Command(
+                    name,
                     new[]
                     {
                         "@SP",
@@ -29,13 +30,13 @@ namespace VirtualMachine
             }
 
             public static Command Equal(LabelGenerator generator) => 
-                Compare("JEQ", generator.Generate());
+                Compare("eq", "JEQ", generator.Generate());
 
             public static Command GreateThan(LabelGenerator generator) => 
-                Compare("JLT", generator.Generate());
+                Compare("gt", "JLT", generator.Generate());
 
             public static Command LessThan(LabelGenerator generator) => 
-                Compare("JGT", generator.Generate());
+                Compare("lt", "JGT", generator.Generate());
         }
     }
 }

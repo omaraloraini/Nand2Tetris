@@ -45,9 +45,12 @@ namespace VirtualMachine
     public class Label
     {
         public readonly string Declaration; 
-        public readonly string Address; 
+        public readonly string Address;
+        public readonly string Text;
+        
         public Label(string label)
         {
+            Text = label;
             Declaration = $"({label})";
             Address = $"@{label}";
         }

@@ -7,6 +7,7 @@
             public static Command And()
             {
                 return new Command(
+                    "and",
                     new[]
                     {
                         "@SP",
@@ -20,6 +21,7 @@
             public static Command Or()
             {
                 return new Command(
+                    "or",
                     new[]
                     {
                         "@SP",
@@ -32,12 +34,14 @@
 
             public static Command Not()
             {
-                return new Command(new[]
-                {
-                    "@SP",
-                    "A=M-1",
-                    "M=!M"
-                });
+                return new Command(
+                    "not",
+                    new[]
+                    {
+                        "@SP",
+                        "A=M-1",
+                        "M=!M"
+                    });
             }
         }
     }

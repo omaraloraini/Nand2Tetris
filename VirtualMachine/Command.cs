@@ -8,10 +8,12 @@ namespace VirtualMachine
 {
     public class Command
     {
+        public string Name { get;}
         public IEnumerable<string> HackInstructions { get; }
 
-        public Command(IEnumerable<string> hackInstructions)
+        public Command(string name, IEnumerable<string> hackInstructions)
         {
+            Name = name;
             HackInstructions = hackInstructions;
         }
 
@@ -33,9 +35,9 @@ namespace VirtualMachine
                 case "eq": return Commands.Comparsion.Equal(generator);
                 case "gt": return Commands.Comparsion.GreateThan(generator);
                 case "lt": return Commands.Comparsion.LessThan(generator);
-                case "function": return Function.DeclareFunction(arg1, arg2);
-                case "call": return Function.Call(arg1, arg2, generator);
-                case "return": return Function.Retrun();
+                case "function": return Commands.DeclareFunction(arg1, arg2);
+                case "call": return Commands.FunctionCall(arg1, arg2, generator);
+                case "return": return Commands.FunctionRetrun();
                 case "goto": return Commands.Goto(arg1);
                 case "if-goto": return Commands.IfGoto(arg1);
                 case "label": return Commands.Label(arg1);
