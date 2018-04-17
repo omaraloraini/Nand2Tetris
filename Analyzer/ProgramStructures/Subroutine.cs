@@ -10,8 +10,8 @@ namespace Analyzer.ProgramStructures
     {
         public Identifier Name { get; }
         public VaribleType ReturnType { get; }
-        public IEnumerable<Varible> Arguments { get; }
-        public IEnumerable<Varible> LocalVaribles { get; }
+        public IReadOnlyList<Varible> Arguments { get; }
+        public IReadOnlyList<Varible> LocalVaribles { get; }
         public IEnumerable<Statement> Statements { get; }
         public bool IsVoid => ReturnType.Name == "void";
 
@@ -23,8 +23,8 @@ namespace Analyzer.ProgramStructures
         {
             Name = name;
             ReturnType = returnType;
-            Arguments = arguments;
-            LocalVaribles = localVaribles;
+            Arguments = arguments.ToList();
+            LocalVaribles = localVaribles.ToList();
             Statements = statements;
         }
 

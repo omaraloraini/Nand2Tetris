@@ -21,12 +21,18 @@ namespace VirtualMachine
             Name = name;
             Argc = argc;
             LabelGenerator = new LabelGenerator(name);
-            _commands.Add(DeclareFunction(name, argc));
+            _commands.Add(Commands.DeclareFunction(name, argc));
         }
 
         public Function AddCommand(Command command)
         {
             _commands.Add(command);
+            return this;
+        }
+        
+        public Function AddCommands(IEnumerable<Command> command)
+        {
+            _commands.AddRange(command);
             return this;
         }
 
@@ -35,13 +41,13 @@ namespace VirtualMachine
 
         public Function Call(string callerName, int argc)
         {
-            _commands.Add(Call(Name, argc, LabelGenerator));
+            _commands.Add(Commands.FunctionCall(Name, argc, LabelGenerator));
             return this;
         }
 
         public Function Return()
         {
-            _commands.Add(Retrun());
+            _commands.Add(Commands.FunctionRetrun());
             return this;
         }
 
@@ -61,65 +67,6 @@ namespace VirtualMachine
             }
 
             return function;
-        }
-        
-        
-        public static Command Call(
-            string calleeName, int argc, LabelGenerator generator)
-        {
-            var label = generator.Generate();
-            return new Command(new[]
-            {
-                label.Address,
-                "D=A",
-                "@R13",
-                "M=D",
-                
-                '@' + argc.ToString(),
-                "D=A",
-                "@R14",
-                "M=D",
-                
-                '@' + calleeName,
-                "D=A",
-                "@R15",
-                "M=D",
-                
-                "@CALL",
-                "0;JMP",
-
-                label.Declaration
-            });
-        }
-
-        public static Command DeclareFunction(string functionName, int argc)
-        {
-            var instructions = new List<string> {$"({functionName})"};
-            if (argc == 0) return new Command(instructions);
-            
-            instructions.Add("@SP");
-            instructions.Add("A=M");
-
-            while (argc > 0)
-            {
-                instructions.Add("M=0");
-                instructions.Add("AD=A+1");
-                argc--;
-            }
-            
-            instructions.Add("@SP");
-            instructions.Add("M=D");
-            
-            return new Command(instructions);
-        }
-
-        public static Command Retrun()
-        {
-            return new Command(new[]
-            {
-                "@RETURN",
-                "0;JMP"
-            });
         }
     }
 }

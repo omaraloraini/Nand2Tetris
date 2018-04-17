@@ -3,4 +3,10 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VirtualMachine\VirtualMachine.csproj">
+      <Project>{BB0743C1-1E7F-43FC-ADD7-E46356815CA9}</Project>
+      <Name>VirtualMachine</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

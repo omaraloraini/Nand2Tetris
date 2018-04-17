@@ -7,9 +7,7 @@ namespace Analyzer.Expressions
     {
         public Identifier CalledOn { get; }
         public Identifier SobroutineName { get; }
-        
-        private List<Expression> _parametars = new List<Expression>();
-        public IEnumerable<Expression> Parametars => _parametars;
+        public List<Expression> Parametars { get; } = new List<Expression>();
 
         public SubroutineCall(Identifier calledOn, Identifier sobroutineName,
             Tokenizer tokenizer)
@@ -22,7 +20,7 @@ namespace Analyzer.Expressions
             {
                 if (tokenizer.Current.Equals(Symbol.Commna)) tokenizer.Move();
 
-                _parametars.Add(new Expression(tokenizer));
+                Parametars.Add(new Expression(tokenizer));
             }
             
             tokenizer.CurrentIs(Symbol.CloseParenthesis).Move();

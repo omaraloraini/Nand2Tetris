@@ -20,7 +20,7 @@ namespace VirtualMachine
             foreach (var instruction in FunctionCallFunction())
                 yield return instruction;
         }
-
+        
         public static IEnumerable<string> Translate(Dictionary<string, string[]> files)
         {
             return Bootstrapper()
@@ -55,8 +55,8 @@ namespace VirtualMachine
                 "D=A",
                 "@SP",
                 "M=D"
-            }.Concat(Function
-                .Call("Sys.init", 0, labelGenerator).HackInstructions);
+            }.Concat(Commands
+                .FunctionCall("Sys.init", 0, labelGenerator).HackInstructions);
         }
 
         private static IEnumerable<string> ReturnFunction()
