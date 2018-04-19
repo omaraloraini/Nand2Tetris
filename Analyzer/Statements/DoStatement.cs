@@ -8,10 +8,10 @@ namespace Analyzer.Statements
         public SubroutineCall SubroutineCall { get; }
         public DoStatement(Tokenizer tokenizer)
         {
-            tokenizer.CurrentIs(Keyword.Do).Move();
-            SubroutineCall = new SubroutineCall(null,
-                tokenizer.GetCurrentThenMove() as Identifier, tokenizer);
+            tokenizer.CurrentIs(Keyword.Do).Move().CurrentIsIdentifier();
 
+            SubroutineCall = Terms.Parse(tokenizer) as SubroutineCall;
+            
             tokenizer.CurrentIs(Symbol.SemiColon).Move();
         }
     }

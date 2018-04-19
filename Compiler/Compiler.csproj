@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Analyzer\Analyzer.csproj">
+      <Project>{16BE2566-9C14-4CE2-BA6E-C85295314A2F}</Project>
+      <Name>Analyzer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VirtualMachine\VirtualMachine.csproj">
+      <Project>{BB0743C1-1E7F-43FC-ADD7-E46356815CA9}</Project>
+      <Name>VirtualMachine</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

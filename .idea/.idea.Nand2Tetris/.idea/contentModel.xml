@@ -15,7 +15,7 @@
           <e p="SubroutineCall.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
-          <e p="Debug" t="Include">
+          <e p="Release" t="Include">
             <e p="netcoreapp2.0" t="Include">
               <e p="Analyzer.AssemblyInfo.cs" t="Include" />
             </e>
@@ -52,7 +52,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="ExpressionsTests.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
-          <e p="Debug" t="Include">
+          <e p="Release" t="Include">
             <e p="netcoreapp2.0" t="Include">
               <e p="Analyzer.Tests.AssemblyInfo.cs" t="Include" />
               <e p="Analyzer.Tests.Program.cs" t="Include" />
@@ -70,7 +70,7 @@
         <e p="HackAssembler.cs" t="Include" />
         <e p="Instruction.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
-          <e p="Debug" t="Include">
+          <e p="Release" t="Include">
             <e p="netcoreapp2.0" t="Include">
               <e p="Assembler.AssemblyInfo.cs" t="Include" />
             </e>
@@ -84,7 +84,7 @@
         <e p="HackAssemblerTests.cs" t="Include" />
         <e p="InstructionTests.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
-          <e p="Debug" t="Include">
+          <e p="Release" t="Include">
             <e p="netcoreapp2.0" t="Include">
               <e p="Assembler.Tests.AssemblyInfo.cs" t="Include" />
               <e p="Assembler.Tests.Program.cs" t="Include" />
@@ -96,8 +96,9 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="Compiler.csproj" t="IncludeRecursive" />
         <e p="JackClassCompilationUnit.cs" t="Include" />
+        <e p="JackCompiler.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
-          <e p="Debug" t="Include">
+          <e p="Release" t="Include">
             <e p="netcoreapp2.0" t="Include">
               <e p="Compiler.AssemblyInfo.cs" t="Include" />
             </e>
@@ -119,7 +120,7 @@
         <e p="HackTranslator.cs" t="Include" />
         <e p="LabelGenerator.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
-          <e p="Debug" t="Include">
+          <e p="Release" t="Include">
             <e p="netcoreapp2.0" t="Include">
               <e p="VirtualMachine.AssemblyInfo.cs" t="Include" />
             </e>

@@ -25,7 +25,7 @@ namespace Analyzer.Tokens
     public class Keyword : Token, IEquatable<Keyword>
     {
         private static Regex _keywordRegex = new Regex(
-            "^(class|constructor|function|method|field|static|var|int|char|boolean|void|true|false|null|this|let|do|if|else|while|return)");
+            "^(class|constructor|function|method|field|static|var|int|char|boolean|void|true|false|null|this|let|do|if|else|while|return)$");
         
         public Keyword(string value) : base(value)
         {   

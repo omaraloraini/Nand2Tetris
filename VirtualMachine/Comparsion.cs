@@ -30,13 +30,13 @@ namespace VirtualMachine
             }
 
             public static Command Equal(LabelGenerator generator) => 
-                Compare("eq", "JEQ", generator.Generate());
+                Compare("eq", "JEQ", generator.Generate("eq"));
 
             public static Command GreateThan(LabelGenerator generator) => 
-                Compare("gt", "JLT", generator.Generate());
+                Compare("gt", "JLT", generator.Generate("gt"));
 
             public static Command LessThan(LabelGenerator generator) => 
-                Compare("lt", "JGT", generator.Generate());
+                Compare("lt", "JGT", generator.Generate("lt"));
         }
     }
 }

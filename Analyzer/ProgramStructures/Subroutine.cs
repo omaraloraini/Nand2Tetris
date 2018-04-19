@@ -47,7 +47,7 @@ namespace Analyzer.ProgramStructures
             
             tokenizer.CurrentIs(Symbol.OpenCurly).Move();
             var localVaribles = ParseLocalVaribles(tokenizer);
-            var statements = Statement.ParseStatements(tokenizer).ToList();
+            var statements = Statement.ParseStatements(tokenizer);
             tokenizer.CurrentIs(Symbol.CloseCurly).Move();
             
             if (type == Keyword.Constructor)

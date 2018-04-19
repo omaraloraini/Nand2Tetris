@@ -35,7 +35,7 @@ namespace VirtualMachine
         public static Command FunctionCall(
             string name, int argc, LabelGenerator generator)
         {
-            var label = generator.Generate();
+            var label = generator.Generate("ret");
             return new Command(
                 $"call {name} {argc}",
                 new[]
@@ -70,11 +70,10 @@ namespace VirtualMachine
             instructions.Add("@SP");
             instructions.Add("A=M");
 
-            while (argc > 0)
+            for (var i = argc; i > 0; i--)
             {
                 instructions.Add("M=0");
                 instructions.Add("AD=A+1");
-                argc--;
             }
 
             instructions.Add("@SP");

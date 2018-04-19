@@ -8,36 +8,22 @@ namespace VirtualMachine
     {
         private readonly string _functionName;
 
-        private readonly Dictionary<string, int> _labelCounter = new Dictionary<string, int>
-        {
-            ["eq"] = 0,
-            ["gt"] = 0,
-            ["lt"] = 0,
-            ["ret"] = 0,
-        };
-        
-        private Dictionary<string, string> _nameMap = new Dictionary<string, string>
-        {
-            ["Equal"] = "eq",
-            ["GreateThan"] = "gt",
-            ["LessThan"] = "lt",
-            ["Call"] = "ret",
-        };
+        private readonly Dictionary<string, int> _labelCounter = new Dictionary<string, int>();
 
         public LabelGenerator(string functionName)
         {
             _functionName = functionName;
         }
         
-        public Label Generate([CallerMemberName] string name = null)
+        public Label Generate(string name)
         {
             if (name is null) throw new ArgumentNullException();
-            
-            if (!_nameMap.ContainsKey(name)) 
-                throw new ArgumentException("Caller not allowed");
-            
-            name = _nameMap[name];
 
+            if (!_labelCounter.ContainsKey(name))
+            {
+                _labelCounter.Add(name, 0);
+            }
+            
             return new Label($"{_functionName}${name}.{_labelCounter[name]++}");
         }
     }

@@ -38,8 +38,10 @@ namespace Analyzer.Statements
 
         public static IEnumerable<Statement> ParseStatements(Tokenizer tokenizer)
         {
+            var statements = new List<Statement>();
             while (CanParse(tokenizer))
-                yield return Parse(tokenizer);
+                statements.Add(Parse(tokenizer));
+            return statements;
         }
     }
 }
